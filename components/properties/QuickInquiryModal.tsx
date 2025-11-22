@@ -4,7 +4,6 @@ import { useState } from 'react'
 import { useForm } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
 import * as z from 'zod'
-import { motion, AnimatePresence } from 'framer-motion'
 import { X, Send, CheckCircle2, Phone, Mail, MessageSquare, Calendar, Info, DollarSign } from 'lucide-react'
 import {
   Dialog,
@@ -101,36 +100,20 @@ export function QuickInquiryModal({
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
       <DialogContent className="max-w-2xl max-h-[90vh] overflow-y-auto">
-        <AnimatePresence mode="wait">
-          {isSuccess ? (
-            <motion.div
-              key="success"
-              initial={{ opacity: 0, scale: 0.9 }}
-              animate={{ opacity: 1, scale: 1 }}
-              exit={{ opacity: 0, scale: 0.9 }}
-              className="flex flex-col items-center justify-center py-12"
-            >
-              <motion.div
-                initial={{ scale: 0 }}
-                animate={{ scale: 1 }}
-                transition={{ delay: 0.2, type: 'spring' }}
-              >
-                <CheckCircle2 className="h-20 w-20 text-green-500 mb-4" />
-              </motion.div>
-              <h3 className="text-2xl font-semibold text-neutral-900 mb-2">
-                Inquiry Sent Successfully!
-              </h3>
-              <p className="text-neutral-600 text-center">
-                We'll get back to you shortly via your preferred contact method.
-              </p>
-            </motion.div>
-          ) : (
-            <motion.div
-              key="form"
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              exit={{ opacity: 0 }}
-            >
+        {isSuccess ? (
+          <div className="flex flex-col items-center justify-center py-12 animate-fade-in">
+            <div className="animate-scale-in">
+              <CheckCircle2 className="h-20 w-20 text-green-500 mb-4" />
+            </div>
+            <h3 className="text-2xl font-semibold text-neutral-900 mb-2">
+              Inquiry Sent Successfully!
+            </h3>
+            <p className="text-neutral-600 text-center">
+              We'll get back to you shortly via your preferred contact method.
+            </p>
+          </div>
+        ) : (
+          <div className="animate-fade-in">
               <DialogHeader>
                 <DialogTitle className="text-2xl font-display">Quick Inquiry</DialogTitle>
                 <DialogDescription>
@@ -417,13 +400,9 @@ export function QuickInquiryModal({
                   >
                     {isSubmitting ? (
                       <>
-                        <motion.div
-                          animate={{ rotate: 360 }}
-                          transition={{ duration: 1, repeat: Infinity, ease: 'linear' }}
-                          className="mr-2"
-                        >
+                        <div className="mr-2 animate-spin">
                           <Send className="h-4 w-4" />
-                        </motion.div>
+                        </div>
                         Sending...
                       </>
                     ) : (
@@ -439,9 +418,8 @@ export function QuickInquiryModal({
               <p className="text-xs text-neutral-500 text-center mt-4">
                 By submitting this form, you agree to our privacy policy and terms of service.
               </p>
-            </motion.div>
+            </div>
           )}
-        </AnimatePresence>
       </DialogContent>
     </Dialog>
   )

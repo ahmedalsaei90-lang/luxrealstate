@@ -1,7 +1,6 @@
 'use client'
 
 import { useState, useEffect, useCallback } from 'react'
-import { motion, AnimatePresence } from 'framer-motion'
 import Image from 'next/image'
 import { X, ChevronLeft, ChevronRight, ZoomIn, ZoomOut, Download, Share2 } from 'lucide-react'
 import { Button } from '@/components/ui/button'
@@ -163,7 +162,7 @@ export function PropertyGallery({
                   <Download className="h-5 w-5" />
                 </Button>
 
-                {navigator.share && (
+                {typeof navigator !== 'undefined' && 'share' in navigator && (
                   <Button
                     variant="ghost"
                     size="icon"
@@ -195,30 +194,24 @@ export function PropertyGallery({
             onTouchMove={onTouchMove}
             onTouchEnd={onTouchEnd}
           >
-            <AnimatePresence mode="wait">
-              <motion.div
-                key={currentIndex}
-                initial={{ opacity: 0, scale: 0.9 }}
-                animate={{ opacity: 1, scale: isZoomed ? 1.5 : 1 }}
-                exit={{ opacity: 0, scale: 0.9 }}
-                transition={{ duration: 0.3 }}
-                className={cn(
-                  'relative w-full h-full',
-                  isZoomed && 'cursor-zoom-out',
-                  !isZoomed && 'cursor-zoom-in'
-                )}
-                onClick={() => setIsZoomed(!isZoomed)}
-              >
-                <Image
-                  src={images[currentIndex]}
-                  alt={`${title} - Image ${currentIndex + 1}`}
-                  fill
-                  className="object-contain"
-                  priority
-                  quality={95}
-                />
-              </motion.div>
-            </AnimatePresence>
+            <div
+              key={currentIndex}
+              className={cn(
+                'relative w-full h-full transition-all duration-300',
+                isZoomed && 'cursor-zoom-out scale-150',
+                !isZoomed && 'cursor-zoom-in scale-100'
+              )}
+              onClick={() => setIsZoomed(!isZoomed)}
+            >
+              <Image
+                src={images[currentIndex]}
+                alt={`${title} - Image ${currentIndex + 1}`}
+                fill
+                className="object-contain"
+                priority
+                quality={95}
+              />
+            </div>
 
             {/* Navigation Arrows */}
             {images.length > 1 && (

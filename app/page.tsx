@@ -10,7 +10,6 @@ import {
   CheckCircle2, Phone, Mail, MapPin, ChevronRight, Quote,
   Home, DollarSign, Bed, Bath, SlidersHorizontal, ChevronDown
 } from 'lucide-react'
-import { motion } from 'framer-motion'
 
 const areas = [
   { name: 'Salmiya', count: 156, image: 'https://images.unsplash.com/photo-1480074568708-e7b720bb3f09?w=600' },
@@ -99,26 +98,16 @@ export default function HomePage() {
         </div>
 
         <div className="container mx-auto px-4 py-4 md:py-8 text-center relative z-10">
-          <motion.div
-            initial={{ opacity: 0, y: 40 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 1, ease: 'easeOut' }}
-            className="space-y-6 md:space-y-8 max-w-7xl mx-auto"
-          >
+          <div className="space-y-6 md:space-y-8 max-w-7xl mx-auto animate-fade-in">
             {/* Luxury Badge */}
-            <motion.div
-              initial={{ opacity: 0, scale: 0.8 }}
-              animate={{ opacity: 1, scale: 1 }}
-              transition={{ delay: 0.3, duration: 0.6 }}
-              className="inline-block"
-            >
+            <div className="inline-block animate-scale-in">
               <div className="px-6 py-2 rounded-full bg-gradient-to-r from-amber-500/10 to-amber-600/10
                             backdrop-blur-sm border border-amber-300/60 text-white text-sm font-bold
                             shadow-lg shadow-amber-500/10"
                    style={{ textShadow: '0 2px 12px rgba(0,0,0,0.8), 0 0 20px rgba(0,0,0,0.4)' }}>
                 Premium Real Estate in Kuwait
               </div>
-            </motion.div>
+            </div>
 
             {/* Main Heading */}
             <h1 className="text-4xl md:text-6xl lg:text-7xl font-display font-bold text-white
@@ -150,12 +139,7 @@ export default function HomePage() {
             </p>
 
             {/* Advanced Premium Search Bar */}
-            <motion.div
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: 0.5, duration: 0.8 }}
-              className="max-w-6xl mx-auto mt-6 md:mt-8 lg:mt-10"
-            >
+            <div className="max-w-6xl mx-auto mt-6 md:mt-8 lg:mt-10 animate-slide-up">
               <div className="backdrop-blur-sm bg-white/25 rounded-2xl shadow-2xl
                             border border-white/20 p-4 md:p-6 lg:p-8">
 
@@ -377,8 +361,8 @@ export default function HomePage() {
                   </div>
                 </div>
               </div>
-            </motion.div>
-          </motion.div>
+            </div>
+          </div>
         </div>
 
         {/* Decorative Bottom Fade */}
@@ -399,12 +383,10 @@ export default function HomePage() {
 
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
             {areas.map((area, index) => (
-              <motion.div
+              <div
                 key={area.name}
-                initial={{ opacity: 0, y: 20 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.5, delay: index * 0.1 }}
-                viewport={{ once: true }}
+                className="animate-fade-in"
+                style={{ animationDelay: `${index * 0.1}s` }}
               >
                 <Link
                   href={`/properties?area=${area.name}`}
@@ -425,7 +407,7 @@ export default function HomePage() {
                     <ChevronRight className="h-5 w-5" />
                   </div>
                 </Link>
-              </motion.div>
+              </div>
             ))}
           </div>
         </div>
@@ -477,20 +459,17 @@ export default function HomePage() {
 
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
             {features.map((feature, index) => (
-              <motion.div
+              <div
                 key={feature.title}
-                initial={{ opacity: 0, y: 20 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.5, delay: index * 0.1 }}
-                viewport={{ once: true }}
-                className="text-center group"
+                className="text-center group animate-fade-in"
+                style={{ animationDelay: `${index * 0.1}s` }}
               >
                 <div className="inline-flex items-center justify-center w-16 h-16 rounded-full bg-primary-100 text-primary-600 mb-6 group-hover:bg-primary-600 group-hover:text-white transition-colors">
                   <feature.icon className="h-8 w-8" />
                 </div>
                 <h3 className="text-xl font-semibold text-neutral-900 mb-3">{feature.title}</h3>
                 <p className="text-neutral-600">{feature.description}</p>
-              </motion.div>
+              </div>
             ))}
           </div>
         </div>
@@ -533,13 +512,10 @@ export default function HomePage() {
 
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
             {testimonials.map((testimonial, index) => (
-              <motion.div
+              <div
                 key={testimonial.name}
-                initial={{ opacity: 0, y: 20 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.5, delay: index * 0.1 }}
-                viewport={{ once: true }}
-                className="bg-neutral-50 rounded-xl p-8 relative"
+                className="bg-neutral-50 rounded-xl p-8 relative animate-fade-in"
+                style={{ animationDelay: `${index * 0.1}s` }}
               >
                 <Quote className="h-10 w-10 text-primary-200 mb-4" />
                 <p className="text-neutral-700 mb-6 leading-relaxed">{testimonial.content}</p>
@@ -561,7 +537,7 @@ export default function HomePage() {
                     <p className="text-sm text-neutral-600">{testimonial.role}</p>
                   </div>
                 </div>
-              </motion.div>
+              </div>
             ))}
           </div>
         </div>

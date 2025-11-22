@@ -1,6 +1,5 @@
 'use client'
 
-import { motion } from 'framer-motion'
 import Image from 'next/image'
 import Link from 'next/link'
 import { MapPin, Bed, Bath, Maximize, CheckCircle2, Star, Sparkles, Eye } from 'lucide-react'
@@ -33,14 +32,12 @@ interface PropertyCardProps {
 export function PropertyCard({ property }: PropertyCardProps) {
 
   return (
-    <motion.div
-      initial={{ opacity: 0, y: 20 }}
-      animate={{ opacity: 1, y: 0 }}
-      transition={{ duration: 0.4 }}
-      whileHover={{ y: -8, scale: 1.02 }}
+    <div
       className={cn(
         "group relative overflow-hidden rounded-xl bg-white",
         "shadow-md hover:shadow-xl transition-all duration-300",
+        "hover:-translate-y-2 hover:scale-[1.02]",
+        "animate-fade-in",
         property.featured && "ring-2 ring-primary-400 shadow-lg"
       )}
     >
@@ -196,6 +193,6 @@ export function PropertyCard({ property }: PropertyCardProps) {
           </div>
         </div>
       </Link>
-    </motion.div>
+    </div>
   )
 }
