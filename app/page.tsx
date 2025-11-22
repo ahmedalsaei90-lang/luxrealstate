@@ -96,20 +96,6 @@ export default function HomePage() {
 
           {/* Elegant Gold Accent Gradient */}
           <div className="absolute inset-0 bg-gradient-to-br from-amber-500/10 via-transparent to-blue-500/10" />
-
-          {/* Animated Shimmer Effect */}
-          <motion.div
-            className="absolute inset-0 bg-gradient-to-r from-transparent via-white/5 to-transparent"
-            animate={{
-              x: ['-100%', '100%'],
-            }}
-            transition={{
-              duration: 3,
-              repeat: Infinity,
-              repeatDelay: 5,
-              ease: 'easeInOut',
-            }}
-          />
         </div>
 
         <div className="container mx-auto px-4 py-4 md:py-8 text-center relative z-10">
