@@ -26,11 +26,37 @@ function PropertiesLoading() {
   )
 }
 
-// Helper to parse price range from URL
-function parsePriceRange(priceParam: string | null): [number, number] {
+// Helper to parse comma-separated values from URL
+function parseCommaSeparated(param: string | null): string[] {
+  if (!param) return []
+  return param.split(',').map(s => s.trim()).filter(Boolean)
+}
+
+// Helper to parse price range from URL (supports both old format and new min/max)
+function parsePriceRange(
+  priceParam: string | null,
+  priceMinParam: string | null,
+  priceMaxParam: string | null
+): [number, number] {
+  // First try new min/max format
+  if (priceMinParam || priceMaxParam) {
+    const min = priceMinParam ? parseInt(priceMinParam) : 0
+    const max = priceMaxParam ? parseInt(priceMaxParam) : 5000000
+    return [isNaN(min) ? 0 : min, isNaN(max) ? 5000000 : max]
+  }
+  // Fall back to old range format
   if (!priceParam) return [0, 5000000]
   const [min, max] = priceParam.split('-').map(Number)
   if (isNaN(min) || isNaN(max)) return [0, 5000000]
+  return [min, max]
+}
+
+// Helper to parse area size range from URL
+function parseAreaSize(sizeParam: string | null): [number, number] | null {
+  if (!sizeParam) return null
+  // Handle preset ranges like "100-200" or "500-1000"
+  const [min, max] = sizeParam.split('-').map(Number)
+  if (isNaN(min) || isNaN(max)) return null
   return [min, max]
 }
 
@@ -39,12 +65,16 @@ function PropertiesContent() {
   const searchParams = useSearchParams()
 
   // Read all URL parameters
-  const listingTypeParam = searchParams.get('type') as 'sale' | 'rent' | null
+  const listingTypeParam = searchParams.get('type') as 'sale' | 'rent' | 'all' | null
   const locationParam = searchParams.get('location')
   const propertyTypeParam = searchParams.get('propertyType')
   const priceParam = searchParams.get('price')
+  const priceMinParam = searchParams.get('priceMin')
+  const priceMaxParam = searchParams.get('priceMax')
   const bedsParam = searchParams.get('beds')
   const bathsParam = searchParams.get('baths')
+  const amenitiesParam = searchParams.get('amenities')
+  const sizeParam = searchParams.get('size')
 
   const [viewMode, setViewMode] = useState<ViewMode>('grid')
   const [sortBy, setSortBy] = useState<SortOption>('recommended')
@@ -54,29 +84,31 @@ function PropertiesContent() {
   // Initialize filters from URL parameters
   const [filters, setFilters] = useState<PropertyFilters>(() => ({
     search: '',
-    governorates: locationParam ? [locationParam] : [],
-    propertyTypes: propertyTypeParam ? [propertyTypeParam] : [],
-    priceRange: parsePriceRange(priceParam),
+    governorates: parseCommaSeparated(locationParam),
+    propertyTypes: parseCommaSeparated(propertyTypeParam),
+    priceRange: parsePriceRange(priceParam, priceMinParam, priceMaxParam),
     bedrooms: bedsParam ? parseInt(bedsParam) : null,
     bathrooms: bathsParam ? parseInt(bathsParam) : null,
-    amenities: [],
-    listingType: listingTypeParam || undefined,
+    amenities: parseCommaSeparated(amenitiesParam),
+    listingType: listingTypeParam || 'all',
+    areaSize: parseAreaSize(sizeParam),
   }))
 
   // Sync filters when URL changes
   useEffect(() => {
     setFilters({
       search: '',
-      governorates: locationParam ? [locationParam] : [],
-      propertyTypes: propertyTypeParam ? [propertyTypeParam] : [],
-      priceRange: parsePriceRange(priceParam),
+      governorates: parseCommaSeparated(locationParam),
+      propertyTypes: parseCommaSeparated(propertyTypeParam),
+      priceRange: parsePriceRange(priceParam, priceMinParam, priceMaxParam),
       bedrooms: bedsParam ? parseInt(bedsParam) : null,
       bathrooms: bathsParam ? parseInt(bathsParam) : null,
-      amenities: [],
-      listingType: listingTypeParam || undefined,
+      amenities: parseCommaSeparated(amenitiesParam),
+      listingType: listingTypeParam || 'all',
+      areaSize: parseAreaSize(sizeParam),
     })
     setCurrentPage(1)
-  }, [listingTypeParam, locationParam, propertyTypeParam, priceParam, bedsParam, bathsParam])
+  }, [listingTypeParam, locationParam, propertyTypeParam, priceParam, priceMinParam, priceMaxParam, bedsParam, bathsParam, amenitiesParam, sizeParam])
 
   // Get page title and description based on listing type
   const pageContent = useMemo(() => {
@@ -110,7 +142,12 @@ function PropertiesContent() {
 
   // Filter and sort properties
   const filteredProperties = useMemo(() => {
-    const filtered = filterProperties(mockProperties, filters)
+    // Map 'all' to undefined for filtering
+    const filterOptions = {
+      ...filters,
+      listingType: filters.listingType === 'all' ? undefined : filters.listingType,
+    }
+    const filtered = filterProperties(mockProperties, filterOptions)
     return sortProperties(filtered, sortBy)
   }, [filters, sortBy])
 
@@ -137,7 +174,8 @@ function PropertiesContent() {
       bedrooms: null,
       bathrooms: null,
       amenities: [],
-      listingType: listingTypeParam || undefined, // Preserve URL-based listing type
+      listingType: 'all',
+      areaSize: null,
     })
     setCurrentPage(1)
   }
@@ -156,6 +194,8 @@ function PropertiesContent() {
     filters.bedrooms !== null,
     filters.bathrooms !== null,
     filters.amenities.length > 0,
+    filters.areaSize !== null,
+    filters.listingType && filters.listingType !== 'all',
   ].filter(Boolean).length
 
   return (

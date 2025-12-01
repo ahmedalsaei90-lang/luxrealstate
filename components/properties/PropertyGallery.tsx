@@ -1,11 +1,11 @@
 'use client'
 
 import { useState, useEffect, useCallback } from 'react'
-import Image from 'next/image'
 import { X, ChevronLeft, ChevronRight, ZoomIn, ZoomOut, Download, Share2 } from 'lucide-react'
 import { Button } from '@/components/ui/button'
 import { cn } from '@/lib/utils/cn'
-import { Dialog, DialogContent } from '@/components/ui/dialog'
+import { Dialog, DialogContent, DialogTitle } from '@/components/ui/dialog'
+import { VisuallyHidden } from '@radix-ui/react-visually-hidden'
 
 interface PropertyGalleryProps {
   images: string[]
@@ -130,6 +130,9 @@ export function PropertyGallery({
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
       <DialogContent className="max-w-full max-h-full w-full h-full p-0 bg-black/95">
+        <VisuallyHidden>
+          <DialogTitle>{title} - Photo Gallery</DialogTitle>
+        </VisuallyHidden>
         <div className="relative w-full h-full flex flex-col">
           {/* Header */}
           <div className="absolute top-0 left-0 right-0 z-50 bg-gradient-to-b from-black/80 to-transparent p-6">
@@ -203,13 +206,11 @@ export function PropertyGallery({
               )}
               onClick={() => setIsZoomed(!isZoomed)}
             >
-              <Image
+              {/* eslint-disable-next-line @next/next/no-img-element */}
+              <img
                 src={images[currentIndex]}
                 alt={`${title} - Image ${currentIndex + 1}`}
-                fill
-                className="object-contain"
-                priority
-                quality={95}
+                className="absolute inset-0 w-full h-full object-contain"
               />
             </div>
 
@@ -254,12 +255,11 @@ export function PropertyGallery({
                       : 'border-white/20 hover:border-white/40 opacity-60 hover:opacity-100'
                   )}
                 >
-                  <Image
+                  {/* eslint-disable-next-line @next/next/no-img-element */}
+                  <img
                     src={image}
                     alt={`Thumbnail ${index + 1}`}
-                    fill
-                    className="object-cover"
-                    sizes="80px"
+                    className="absolute inset-0 w-full h-full object-cover"
                   />
                 </button>
               ))}
@@ -305,12 +305,11 @@ export function PropertyGalleryGrid({ images, title, onImageClick }: PropertyGal
             index !== 0 && 'aspect-square'
           )}
         >
-          <Image
+          {/* eslint-disable-next-line @next/next/no-img-element */}
+          <img
             src={image}
             alt={`${title} - ${index + 1}`}
-            fill
-            className="object-cover"
-            sizes={index === 0 ? '(max-width: 768px) 100vw, 50vw' : '(max-width: 768px) 50vw, 25vw'}
+            className="absolute inset-0 w-full h-full object-cover"
           />
 
           {index === 5 && !showAll && images.length > 6 && (

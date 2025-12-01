@@ -1,6 +1,5 @@
 'use client'
 
-import Image from 'next/image'
 import Link from 'next/link'
 import { MapPin, Bed, Bath, Maximize, CheckCircle2, Star, Sparkles, Eye, Crown } from 'lucide-react'
 import { Badge } from '@/components/ui/badge'
@@ -43,11 +42,11 @@ export function PropertyCard({ property }: PropertyCardProps) {
       <Link href={`/properties/${property.id}`}>
         {/* Image Container */}
         <div className="relative aspect-[4/3] overflow-hidden">
-          <Image
+          {/* eslint-disable-next-line @next/next/no-img-element */}
+          <img
             src={property.featured_image_url}
             alt={property.title}
-            fill
-            className="object-cover transition-transform duration-700
+            className="absolute inset-0 w-full h-full object-cover transition-transform duration-700
                        group-hover:scale-110"
           />
 

@@ -83,22 +83,44 @@ const descriptions = [
   'This contemporary property combines modern architecture with luxurious amenities. Featuring smart home technology, premium finishes, and stunning design elements throughout.',
 ]
 
+// High-quality luxury property images from Unsplash
 const unsplashImages = [
-  'https://images.unsplash.com/photo-1613490493576-7fde63acd811',
-  'https://images.unsplash.com/photo-1512917774080-9991f1c4c750',
-  'https://images.unsplash.com/photo-1600596542815-ffad4c1539a9',
-  'https://images.unsplash.com/photo-1600585154340-be6161a56a0c',
-  'https://images.unsplash.com/photo-1600607687939-ce8a6c25118c',
-  'https://images.unsplash.com/photo-1580587771525-78b9dba3b914',
-  'https://images.unsplash.com/photo-1600573472550-8090b5e0745e',
-  'https://images.unsplash.com/photo-1600566753190-17f0baa2a6c3',
-  'https://images.unsplash.com/photo-1600047509807-ba8f99d2cdde',
-  'https://images.unsplash.com/photo-1600210492486-724fe5c67fb0',
-  'https://images.unsplash.com/photo-1600047509358-9dc75507daeb',
-  'https://images.unsplash.com/photo-1600566753086-00f18fb6b3ea',
-  'https://images.unsplash.com/photo-1600585154526-990dced4db0d',
-  'https://images.unsplash.com/photo-1600047509782-20d39509f26d',
-  'https://images.unsplash.com/photo-1600210491892-03d54c0aaf87',
+  // Luxury Villas & Mansions
+  'https://images.unsplash.com/photo-1613490493576-7fde63acd811?w=800&h=600&fit=crop&q=80',
+  'https://images.unsplash.com/photo-1512917774080-9991f1c4c750?w=800&h=600&fit=crop&q=80',
+  'https://images.unsplash.com/photo-1600596542815-ffad4c1539a9?w=800&h=600&fit=crop&q=80',
+  'https://images.unsplash.com/photo-1600585154340-be6161a56a0c?w=800&h=600&fit=crop&q=80',
+  'https://images.unsplash.com/photo-1600607687939-ce8a6c25118c?w=800&h=600&fit=crop&q=80',
+  // Modern Homes
+  'https://images.unsplash.com/photo-1580587771525-78b9dba3b914?w=800&h=600&fit=crop&q=80',
+  'https://images.unsplash.com/photo-1600573472550-8090b5e0745e?w=800&h=600&fit=crop&q=80',
+  'https://images.unsplash.com/photo-1600566753190-17f0baa2a6c3?w=800&h=600&fit=crop&q=80',
+  'https://images.unsplash.com/photo-1600047509807-ba8f99d2cdde?w=800&h=600&fit=crop&q=80',
+  'https://images.unsplash.com/photo-1600210492486-724fe5c67fb0?w=800&h=600&fit=crop&q=80',
+  // Contemporary Architecture
+  'https://images.unsplash.com/photo-1600047509358-9dc75507daeb?w=800&h=600&fit=crop&q=80',
+  'https://images.unsplash.com/photo-1600566753086-00f18fb6b3ea?w=800&h=600&fit=crop&q=80',
+  'https://images.unsplash.com/photo-1600585154526-990dced4db0d?w=800&h=600&fit=crop&q=80',
+  'https://images.unsplash.com/photo-1600047509782-20d39509f26d?w=800&h=600&fit=crop&q=80',
+  'https://images.unsplash.com/photo-1600210491892-03d54c0aaf87?w=800&h=600&fit=crop&q=80',
+  // Premium Estates
+  'https://images.unsplash.com/photo-1564013799919-ab600027ffc6?w=800&h=600&fit=crop&q=80',
+  'https://images.unsplash.com/photo-1600607687920-4e2a09cf159d?w=800&h=600&fit=crop&q=80',
+  'https://images.unsplash.com/photo-1583608205776-bfd35f0d9f83?w=800&h=600&fit=crop&q=80',
+  'https://images.unsplash.com/photo-1605276374104-dee2a0ed3cd6?w=800&h=600&fit=crop&q=80',
+  'https://images.unsplash.com/photo-1600585154363-67eb9e2e2099?w=800&h=600&fit=crop&q=80',
+  // Apartments & Penthouses
+  'https://images.unsplash.com/photo-1502672260266-1c1ef2d93688?w=800&h=600&fit=crop&q=80',
+  'https://images.unsplash.com/photo-1560448204-e02f11c3d0e2?w=800&h=600&fit=crop&q=80',
+  'https://images.unsplash.com/photo-1522708323590-d24dbb6b0267?w=800&h=600&fit=crop&q=80',
+  'https://images.unsplash.com/photo-1560185007-c5ca9d2c014d?w=800&h=600&fit=crop&q=80',
+  'https://images.unsplash.com/photo-1560185008-b033106af5c3?w=800&h=600&fit=crop&q=80',
+  // Interiors & Living Spaces
+  'https://images.unsplash.com/photo-1600121848594-d8644e57abab?w=800&h=600&fit=crop&q=80',
+  'https://images.unsplash.com/photo-1600566753151-384129cf4e3e?w=800&h=600&fit=crop&q=80',
+  'https://images.unsplash.com/photo-1600607688969-a5bfcd646154?w=800&h=600&fit=crop&q=80',
+  'https://images.unsplash.com/photo-1600566752355-35792bedcfea?w=800&h=600&fit=crop&q=80',
+  'https://images.unsplash.com/photo-1600585152220-90363fe7e115?w=800&h=600&fit=crop&q=80',
 ]
 
 // Seeded random number generator for deterministic mock data
@@ -158,7 +180,15 @@ function generateProperty(id: number): Property {
   const mainImage = getRandomItem(unsplashImages, rng)
   const additionalImages = getRandomItems(unsplashImages.filter(img => img !== mainImage), 5, rng)
 
-  const agentNames = ['Ahmed Al-Sabah', 'Fatima Al-Mutairi', 'Mohammed Al-Rashid', 'Sara Al-Ahmad', 'Abdullah Al-Khalifa']
+  const agents = [
+    { name: 'Ahmed Al-Sabah', avatar: 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=150&h=150&fit=crop&q=80' },
+    { name: 'Fatima Al-Mutairi', avatar: 'https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=150&h=150&fit=crop&q=80' },
+    { name: 'Mohammed Al-Rashid', avatar: 'https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=150&h=150&fit=crop&q=80' },
+    { name: 'Sara Al-Ahmad', avatar: 'https://images.unsplash.com/photo-1438761681033-6461ffad8d80?w=150&h=150&fit=crop&q=80' },
+    { name: 'Abdullah Al-Khalifa', avatar: 'https://images.unsplash.com/photo-1500648767791-00dcc994a43e?w=150&h=150&fit=crop&q=80' },
+  ]
+
+  const selectedAgent = getRandomItem(agents, rng)
 
   return {
     id: id.toString(),
@@ -171,9 +201,9 @@ function generateProperty(id: number): Property {
     bathrooms,
     area_sqm,
     property_type: propertyType,
-    featured_image_url: `${mainImage}?w=800&auto=format`,
-    images: [mainImage, ...additionalImages].map(img => `${img}?w=1200&auto=format`),
-    status: rng.next() > 0.9 ? 'Sold' : 'Available',
+    featured_image_url: mainImage,
+    images: [mainImage, ...additionalImages],
+    status: listingType === 'sale' ? 'For Sale' : 'For Rent',
     featured: rng.next() > 0.85,
     verified: rng.next() > 0.3,
     prime: rng.next() > 0.9,
@@ -185,10 +215,10 @@ function generateProperty(id: number): Property {
     listing_type: listingType,
     virtual_tour_url: rng.next() > 0.7 ? 'https://example.com/virtual-tour' : undefined,
     agent: {
-      name: getRandomItem(agentNames, rng),
+      name: selectedAgent.name,
       phone: '+965 ' + rng.nextInt(10000000, 99999999),
       email: 'agent@eliteproperties.kw',
-      avatar: `https://i.pravatar.cc/150?img=${rng.nextInt(1, 70)}`,
+      avatar: selectedAgent.avatar,
     },
   }
 }
@@ -223,6 +253,7 @@ export function filterProperties(
     bathrooms?: number | null
     amenities?: string[]
     listingType?: 'sale' | 'rent'
+    areaSize?: [number, number] | null
   }
 ): Property[] {
   return properties.filter(property => {
@@ -283,6 +314,13 @@ export function filterProperties(
     // Listing type filter
     if (filters.listingType) {
       if (property.listing_type !== filters.listingType) {
+        return false
+      }
+    }
+
+    // Area size filter
+    if (filters.areaSize && filters.areaSize[0] !== null && filters.areaSize[1] !== null) {
+      if (property.area_sqm < filters.areaSize[0] || property.area_sqm > filters.areaSize[1]) {
         return false
       }
     }

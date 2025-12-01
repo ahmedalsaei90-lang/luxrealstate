@@ -2,11 +2,19 @@
 
 import { useState, useEffect } from 'react'
 import Link from 'next/link'
-import { usePathname } from 'next/navigation'
-import { Menu, X, Heart, Search, Phone, Crown, ChevronDown, Building2 } from 'lucide-react'
+import { usePathname, useRouter } from 'next/navigation'
+import { Menu, X, Heart, Search, Phone, Crown, ChevronDown, Building2, User, LogOut, LayoutDashboard, Settings, Shield, Home as HomeIcon } from 'lucide-react'
 import { Button } from '@/components/ui/button'
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuSeparator,
+  DropdownMenuTrigger,
+} from '@/components/ui/dropdown-menu'
 import { cn } from '@/lib/utils/cn'
 import { useFavoritesStore } from '@/lib/stores/favorites-store'
+import { useAuth } from '@/components/auth/AuthProvider'
 
 const navLinks = [
   { label: 'Home', href: '/' },
@@ -19,8 +27,16 @@ export function Header() {
   const [isScrolled, setIsScrolled] = useState(false)
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false)
   const pathname = usePathname()
+  const router = useRouter()
   const isHomePage = pathname === '/'
   const favoritesCount = useFavoritesStore((state) => state.favorites.length)
+  const { user, profile, isLoading, signOut } = useAuth()
+
+  const handleSignOut = async () => {
+    await signOut()
+    router.push('/')
+    router.refresh()
+  }
 
   useEffect(() => {
     const handleScroll = () => {
@@ -146,18 +162,105 @@ export function Header() {
               </Button>
             </Link>
 
-            {/* Contact CTA - Desktop */}
-            <Button
-              className={cn(
-                "hidden md:flex items-center gap-2 rounded-xl font-semibold",
-                "bg-gradient-to-r from-primary-500 to-primary-600 text-white",
-                "hover:from-primary-600 hover:to-primary-700 shadow-gold hover:shadow-gold-lg",
-                "transition-all duration-300"
+            {/* Auth Buttons - Desktop */}
+            <div className="hidden md:flex items-center gap-2">
+              {isLoading ? (
+                <div className="w-24 h-10 bg-neutral-200 animate-pulse rounded-xl" />
+              ) : user ? (
+                <DropdownMenu>
+                  <DropdownMenuTrigger asChild>
+                    <Button
+                      variant="ghost"
+                      className={cn(
+                        "flex items-center gap-2 rounded-xl font-medium",
+                        isHomePage && !isScrolled
+                          ? "text-white hover:bg-white/10"
+                          : "text-neutral-700 hover:bg-neutral-100"
+                      )}
+                    >
+                      <div className="w-8 h-8 rounded-full bg-gradient-to-br from-primary-500 to-primary-600 flex items-center justify-center text-white text-sm font-semibold">
+                        {profile?.full_name?.[0]?.toUpperCase() || user.email?.[0]?.toUpperCase() || 'U'}
+                      </div>
+                      <span className="hidden lg:inline max-w-[100px] truncate">
+                        {profile?.full_name || user.email?.split('@')[0]}
+                      </span>
+                      <ChevronDown className="h-4 w-4" />
+                    </Button>
+                  </DropdownMenuTrigger>
+                  <DropdownMenuContent align="end" className="w-56">
+                    <div className="px-3 py-2 border-b">
+                      <p className="font-medium text-sm">{profile?.full_name || 'User'}</p>
+                      <p className="text-xs text-neutral-500 truncate">{user.email}</p>
+                    </div>
+                    <DropdownMenuItem asChild>
+                      <Link href="/dashboard" className="flex items-center gap-2 cursor-pointer">
+                        <LayoutDashboard className="h-4 w-4" />
+                        Dashboard
+                      </Link>
+                    </DropdownMenuItem>
+                    <DropdownMenuItem asChild>
+                      <Link href="/dashboard/properties" className="flex items-center gap-2 cursor-pointer">
+                        <HomeIcon className="h-4 w-4" />
+                        My Properties
+                      </Link>
+                    </DropdownMenuItem>
+                    <DropdownMenuItem asChild>
+                      <Link href="/dashboard/settings" className="flex items-center gap-2 cursor-pointer">
+                        <Settings className="h-4 w-4" />
+                        Settings
+                      </Link>
+                    </DropdownMenuItem>
+                    {profile?.role === 'admin' && (
+                      <>
+                        <DropdownMenuSeparator />
+                        <DropdownMenuItem asChild>
+                          <Link href="/admin" className="flex items-center gap-2 cursor-pointer text-primary-600">
+                            <Shield className="h-4 w-4" />
+                            Admin Panel
+                          </Link>
+                        </DropdownMenuItem>
+                      </>
+                    )}
+                    <DropdownMenuSeparator />
+                    <DropdownMenuItem
+                      onClick={handleSignOut}
+                      className="flex items-center gap-2 cursor-pointer text-red-600 focus:text-red-600"
+                    >
+                      <LogOut className="h-4 w-4" />
+                      Sign Out
+                    </DropdownMenuItem>
+                  </DropdownMenuContent>
+                </DropdownMenu>
+              ) : (
+                <>
+                  <Link href="/login">
+                    <Button
+                      variant="ghost"
+                      className={cn(
+                        "rounded-xl font-medium",
+                        isHomePage && !isScrolled
+                          ? "text-white hover:bg-white/10"
+                          : "text-neutral-700 hover:bg-neutral-100"
+                      )}
+                    >
+                      Sign In
+                    </Button>
+                  </Link>
+                  <Link href="/register">
+                    <Button
+                      className={cn(
+                        "rounded-xl font-semibold",
+                        "bg-gradient-to-r from-primary-500 to-primary-600 text-white",
+                        "hover:from-primary-600 hover:to-primary-700 shadow-gold hover:shadow-gold-lg",
+                        "transition-all duration-300"
+                      )}
+                    >
+                      Register
+                    </Button>
+                  </Link>
+                </>
               )}
-            >
-              <Phone className="h-4 w-4" />
-              Contact Us
-            </Button>
+            </div>
 
             {/* Mobile Menu Button */}
             <Button
@@ -213,15 +316,62 @@ export function Header() {
             })}
           </nav>
 
+          {/* Mobile Auth Section */}
           <div className="mt-6 pt-6 border-t border-neutral-200">
-            <Button
-              className="w-full bg-gradient-to-r from-primary-500 to-primary-600 text-white
-                       hover:from-primary-600 hover:to-primary-700 shadow-gold
-                       rounded-xl py-3 font-semibold"
-            >
-              <Phone className="h-5 w-5 mr-2" />
-              Contact Us
-            </Button>
+            {isLoading ? (
+              <div className="w-full h-12 bg-neutral-200 animate-pulse rounded-xl" />
+            ) : user ? (
+              <div className="space-y-3">
+                <div className="flex items-center gap-3 px-2">
+                  <div className="w-10 h-10 rounded-full bg-gradient-to-br from-primary-500 to-primary-600 flex items-center justify-center text-white font-semibold">
+                    {profile?.full_name?.[0]?.toUpperCase() || user.email?.[0]?.toUpperCase() || 'U'}
+                  </div>
+                  <div>
+                    <p className="font-medium text-neutral-900">{profile?.full_name || 'User'}</p>
+                    <p className="text-sm text-neutral-500 truncate">{user.email}</p>
+                  </div>
+                </div>
+                <Link href="/dashboard" className="block">
+                  <Button variant="outline" className="w-full rounded-xl justify-start">
+                    <LayoutDashboard className="h-4 w-4 mr-2" />
+                    Dashboard
+                  </Button>
+                </Link>
+                {profile?.role === 'admin' && (
+                  <Link href="/admin" className="block">
+                    <Button variant="outline" className="w-full rounded-xl justify-start text-primary-600">
+                      <Shield className="h-4 w-4 mr-2" />
+                      Admin Panel
+                    </Button>
+                  </Link>
+                )}
+                <Button
+                  variant="ghost"
+                  className="w-full rounded-xl justify-start text-red-600 hover:text-red-700 hover:bg-red-50"
+                  onClick={handleSignOut}
+                >
+                  <LogOut className="h-4 w-4 mr-2" />
+                  Sign Out
+                </Button>
+              </div>
+            ) : (
+              <div className="space-y-3">
+                <Link href="/login" className="block">
+                  <Button variant="outline" className="w-full rounded-xl">
+                    Sign In
+                  </Button>
+                </Link>
+                <Link href="/register" className="block">
+                  <Button
+                    className="w-full bg-gradient-to-r from-primary-500 to-primary-600 text-white
+                             hover:from-primary-600 hover:to-primary-700 shadow-gold
+                             rounded-xl font-semibold"
+                  >
+                    Create Account
+                  </Button>
+                </Link>
+              </div>
+            )}
           </div>
         </div>
       </div>

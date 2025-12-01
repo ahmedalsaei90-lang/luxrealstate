@@ -1,7 +1,6 @@
 'use client'
 
 import Link from 'next/link'
-import Image from 'next/image'
 import { PropertyCard } from '@/components/properties/PropertyCard'
 import { HomeSearchBox } from '@/components/home/HomeSearchBox'
 import { featuredProperties, recentProperties } from '@/lib/data/mock-properties'
@@ -12,12 +11,12 @@ import {
 } from 'lucide-react'
 
 const areas = [
-  { name: 'Salmiya', count: 156, image: 'https://images.unsplash.com/photo-1480074568708-e7b720bb3f09?w=600', premium: true },
-  { name: 'Kuwait City', count: 243, image: 'https://images.unsplash.com/photo-1449844908441-8829872d2607?w=600', premium: true },
-  { name: 'Fintas', count: 89, image: 'https://images.unsplash.com/photo-1512917774080-9991f1c4c750?w=600', premium: false },
-  { name: 'Jabriya', count: 127, image: 'https://images.unsplash.com/photo-1600585154340-be6161a56a0c?w=600', premium: false },
-  { name: 'Hawalli', count: 198, image: 'https://images.unsplash.com/photo-1600596542815-ffad4c1539a9?w=600', premium: true },
-  { name: 'Salwa', count: 112, image: 'https://images.unsplash.com/photo-1600607687939-ce8a6c25118c?w=600', premium: false },
+  { name: 'Salmiya', count: 156, image: 'https://images.unsplash.com/photo-1613490493576-7fde63acd811?w=600&h=400&fit=crop&q=80', premium: true },
+  { name: 'Kuwait City', count: 243, image: 'https://images.unsplash.com/photo-1512917774080-9991f1c4c750?w=600&h=400&fit=crop&q=80', premium: true },
+  { name: 'Fintas', count: 89, image: 'https://images.unsplash.com/photo-1600596542815-ffad4c1539a9?w=600&h=400&fit=crop&q=80', premium: false },
+  { name: 'Jabriya', count: 127, image: 'https://images.unsplash.com/photo-1600585154340-be6161a56a0c?w=600&h=400&fit=crop&q=80', premium: false },
+  { name: 'Hawalli', count: 198, image: 'https://images.unsplash.com/photo-1600607687939-ce8a6c25118c?w=600&h=400&fit=crop&q=80', premium: true },
+  { name: 'Salwa', count: 112, image: 'https://images.unsplash.com/photo-1564013799919-ab600027ffc6?w=600&h=400&fit=crop&q=80', premium: false },
 ]
 
 const features = [
@@ -51,21 +50,21 @@ const testimonials = [
   {
     name: 'Mohammed Al-Sabah',
     role: 'Property Investor',
-    image: 'https://i.pravatar.cc/150?img=12',
+    image: 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=150&h=150&fit=crop&q=80',
     content: 'Elite Properties helped me find the perfect investment property in Salmiya. Their team was professional, knowledgeable, and made the entire process seamless.',
     rating: 5,
   },
   {
     name: 'Sara Al-Ahmad',
     role: 'First-time Buyer',
-    image: 'https://i.pravatar.cc/150?img=45',
+    image: 'https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=150&h=150&fit=crop&q=80',
     content: 'As a first-time buyer, I was nervous about the process. The Elite Properties team guided me every step of the way and helped me find my dream home.',
     rating: 5,
   },
   {
     name: 'Abdullah Al-Khalifa',
     role: 'Business Owner',
-    image: 'https://i.pravatar.cc/150?img=33',
+    image: 'https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=150&h=150&fit=crop&q=80',
     content: "I've worked with several real estate companies in Kuwait, but Elite Properties stands out for their professionalism and market expertise.",
     rating: 5,
   },
@@ -85,7 +84,7 @@ export default function HomePage() {
       <section
         className="relative min-h-screen flex items-center justify-center overflow-hidden"
         style={{
-          backgroundImage: 'url(/kuwait-towers.jpg)',
+          backgroundImage: 'url(https://images.unsplash.com/photo-1600585154340-be6161a56a0c?w=1920&h=1080&fit=crop&q=90)',
           backgroundSize: 'cover',
           backgroundPosition: 'center',
           backgroundRepeat: 'no-repeat',
@@ -218,11 +217,11 @@ export default function HomePage() {
                          card-elegant animate-fade-in-up animation-fill-both"
                 style={{ animationDelay: `${index * 100}ms` }}
               >
-                <Image
+                {/* eslint-disable-next-line @next/next/no-img-element */}
+                <img
                   src={area.image}
                   alt={area.name}
-                  fill
-                  className="object-cover transition-transform duration-700 group-hover:scale-110"
+                  className="absolute inset-0 w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"
                 />
                 {/* Gradient Overlay */}
                 <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/30 to-transparent
@@ -436,7 +435,8 @@ export default function HomePage() {
 
                 {/* Author */}
                 <div className="flex items-center gap-4">
-                  <Image
+                  {/* eslint-disable-next-line @next/next/no-img-element */}
+                  <img
                     src={testimonial.image}
                     alt={testimonial.name}
                     width={56}

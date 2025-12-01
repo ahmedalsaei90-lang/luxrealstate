@@ -3,6 +3,7 @@ import { Inter, Cormorant_Garamond, Playfair_Display } from 'next/font/google'
 import { Toaster } from '@/components/ui/sonner'
 import { Header } from '@/components/layout/Header'
 import { Footer } from '@/components/layout/Footer'
+import { AuthProvider } from '@/components/auth/AuthProvider'
 import './globals.css'
 
 const inter = Inter({
@@ -49,12 +50,14 @@ export default function RootLayout({
       suppressHydrationWarning
     >
       <body className="font-body antialiased bg-neutral-50">
-        <Header />
-        <main className="min-h-screen">
-          {children}
-        </main>
-        <Footer />
-        <Toaster position="top-right" richColors />
+        <AuthProvider>
+          <Header />
+          <main className="min-h-screen">
+            {children}
+          </main>
+          <Footer />
+          <Toaster position="top-right" richColors />
+        </AuthProvider>
       </body>
     </html>
   )

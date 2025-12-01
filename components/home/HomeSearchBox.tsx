@@ -2,22 +2,28 @@
 
 import { useState } from 'react'
 import { useRouter } from 'next/navigation'
-import { Search, MapPin, Home, DollarSign, Bed, Bath, ArrowRight, SlidersHorizontal, X, Building2 } from 'lucide-react'
+import {
+  Search, MapPin, Home, DollarSign, Bed, Bath, ArrowRight,
+  SlidersHorizontal, X, Building2, Maximize2, Plus,
+  Waves, Dumbbell, Car, Shield, Trees, PanelTop, ArrowUpFromLine, Thermometer
+} from 'lucide-react'
 import { cn } from '@/lib/utils/cn'
 
 type ListingType = 'sale' | 'rent'
 
 interface SearchFilters {
   listingType: ListingType
-  location: string
-  propertyType: string
-  priceRange: string
+  locations: string[]
+  propertyTypes: string[]
+  priceMin: string
+  priceMax: string
   bedrooms: string
   bathrooms: string
+  amenities: string[]
+  areaSize: string
 }
 
 const LOCATIONS = [
-  { value: '', label: 'All Areas' },
   { value: 'Capital', label: 'Capital (Kuwait City)' },
   { value: 'Hawalli', label: 'Hawalli' },
   { value: 'Salmiya', label: 'Salmiya' },
@@ -29,31 +35,12 @@ const LOCATIONS = [
 ]
 
 const PROPERTY_TYPES = [
-  { value: '', label: 'All Types' },
   { value: 'Villa', label: 'Villa' },
   { value: 'Apartment', label: 'Apartment' },
   { value: 'Penthouse', label: 'Penthouse' },
   { value: 'Duplex', label: 'Duplex' },
   { value: 'Townhouse', label: 'Townhouse' },
   { value: 'Studio', label: 'Studio' },
-]
-
-const PRICE_RANGES_SALE = [
-  { value: '', label: 'Any Price' },
-  { value: '0-100000', label: 'Up to 100K KWD' },
-  { value: '100000-300000', label: '100K - 300K KWD' },
-  { value: '300000-500000', label: '300K - 500K KWD' },
-  { value: '500000-1000000', label: '500K - 1M KWD' },
-  { value: '1000000-5000000', label: '1M+ KWD' },
-]
-
-const PRICE_RANGES_RENT = [
-  { value: '', label: 'Any Price' },
-  { value: '0-500', label: 'Up to 500 KWD/mo' },
-  { value: '500-1000', label: '500 - 1,000 KWD/mo' },
-  { value: '1000-2000', label: '1,000 - 2,000 KWD/mo' },
-  { value: '2000-5000', label: '2,000 - 5,000 KWD/mo' },
-  { value: '5000-50000', label: '5,000+ KWD/mo' },
 ]
 
 const BEDROOM_OPTIONS = [
@@ -73,29 +60,97 @@ const BATHROOM_OPTIONS = [
   { value: '4', label: '4+' },
 ]
 
+const AREA_SIZE_OPTIONS = [
+  { value: '', label: 'Any Size' },
+  { value: '0-100', label: 'Up to 100 sqm' },
+  { value: '100-200', label: '100 - 200 sqm' },
+  { value: '200-300', label: '200 - 300 sqm' },
+  { value: '300-500', label: '300 - 500 sqm' },
+  { value: '500-1000', label: '500+ sqm' },
+]
+
+const QUICK_AMENITIES = [
+  { id: 'Swimming Pool', label: 'Pool', icon: Waves },
+  { id: 'Gym', label: 'Gym', icon: Dumbbell },
+  { id: 'Parking', label: 'Parking', icon: Car },
+  { id: 'Security', label: 'Security', icon: Shield },
+  { id: 'Garden', label: 'Garden', icon: Trees },
+  { id: 'Balcony', label: 'Balcony', icon: PanelTop },
+  { id: 'Elevator', label: 'Elevator', icon: ArrowUpFromLine },
+  { id: 'Central AC', label: 'AC', icon: Thermometer },
+]
+
+// Format number with thousand separators
+const formatNumber = (value: string) => {
+  const num = value.replace(/[^\d]/g, '')
+  if (!num) return ''
+  return parseInt(num).toLocaleString()
+}
+
+// Parse formatted number back to plain digits
+const parseNumber = (value: string) => {
+  return value.replace(/[^\d]/g, '')
+}
+
 export function HomeSearchBox() {
   const router = useRouter()
   const [showAdvanced, setShowAdvanced] = useState(false)
   const [filters, setFilters] = useState<SearchFilters>({
     listingType: 'sale',
-    location: '',
-    propertyType: '',
-    priceRange: '',
+    locations: [],
+    propertyTypes: [],
+    priceMin: '',
+    priceMax: '',
     bedrooms: '',
     bathrooms: '',
+    amenities: [],
+    areaSize: '',
   })
 
-  const priceRanges = filters.listingType === 'sale' ? PRICE_RANGES_SALE : PRICE_RANGES_RENT
+  // Temporary values for dropdowns (before adding to array)
+  const [tempLocation, setTempLocation] = useState('')
+  const [tempPropertyType, setTempPropertyType] = useState('')
 
   const updateFilter = <K extends keyof SearchFilters>(key: K, value: SearchFilters[K]) => {
     setFilters(prev => {
       const updated = { ...prev, [key]: value }
-      // Reset price range when switching listing type
+      // Reset price when switching listing type
       if (key === 'listingType') {
-        updated.priceRange = ''
+        updated.priceMin = ''
+        updated.priceMax = ''
       }
       return updated
     })
+  }
+
+  const addLocation = (loc: string) => {
+    if (loc && !filters.locations.includes(loc)) {
+      updateFilter('locations', [...filters.locations, loc])
+    }
+    setTempLocation('')
+  }
+
+  const removeLocation = (loc: string) => {
+    updateFilter('locations', filters.locations.filter(l => l !== loc))
+  }
+
+  const addPropertyType = (type: string) => {
+    if (type && !filters.propertyTypes.includes(type)) {
+      updateFilter('propertyTypes', [...filters.propertyTypes, type])
+    }
+    setTempPropertyType('')
+  }
+
+  const removePropertyType = (type: string) => {
+    updateFilter('propertyTypes', filters.propertyTypes.filter(t => t !== type))
+  }
+
+  const toggleAmenity = (amenity: string) => {
+    if (filters.amenities.includes(amenity)) {
+      updateFilter('amenities', filters.amenities.filter(a => a !== amenity))
+    } else {
+      updateFilter('amenities', [...filters.amenities, amenity])
+    }
   }
 
   const handleSearch = () => {
@@ -104,26 +159,76 @@ export function HomeSearchBox() {
     // Always include listing type
     params.set('type', filters.listingType)
 
-    // Add other filters if set
-    if (filters.location) params.set('location', filters.location)
-    if (filters.propertyType) params.set('propertyType', filters.propertyType)
-    if (filters.priceRange) params.set('price', filters.priceRange)
+    // Multi-select values (comma-separated)
+    if (filters.locations.length > 0) {
+      params.set('location', filters.locations.join(','))
+    }
+    if (filters.propertyTypes.length > 0) {
+      params.set('propertyType', filters.propertyTypes.join(','))
+    }
+
+    // Price range with separate min/max
+    if (filters.priceMin) {
+      params.set('priceMin', parseNumber(filters.priceMin))
+    }
+    if (filters.priceMax) {
+      params.set('priceMax', parseNumber(filters.priceMax))
+    }
+
+    // Other filters
     if (filters.bedrooms) params.set('beds', filters.bedrooms)
     if (filters.bathrooms) params.set('baths', filters.bathrooms)
+
+    // Amenities (comma-separated)
+    if (filters.amenities.length > 0) {
+      params.set('amenities', filters.amenities.join(','))
+    }
+
+    // Area size
+    if (filters.areaSize) {
+      params.set('size', filters.areaSize)
+    }
 
     router.push(`/properties?${params.toString()}`)
   }
 
   const activeFilterCount = [
-    filters.location,
-    filters.propertyType,
-    filters.priceRange,
+    filters.locations.length > 0,
+    filters.propertyTypes.length > 0,
+    filters.priceMin || filters.priceMax,
     filters.bedrooms,
     filters.bathrooms,
+    filters.amenities.length > 0,
+    filters.areaSize,
   ].filter(Boolean).length
 
+  const clearAllFilters = () => {
+    setFilters({
+      listingType: filters.listingType,
+      locations: [],
+      propertyTypes: [],
+      priceMin: '',
+      priceMax: '',
+      bedrooms: '',
+      bathrooms: '',
+      amenities: [],
+      areaSize: '',
+    })
+    setTempLocation('')
+    setTempPropertyType('')
+  }
+
+  // Get available locations (not already selected)
+  const availableLocations = LOCATIONS.filter(l => !filters.locations.includes(l.value))
+  const availablePropertyTypes = PROPERTY_TYPES.filter(t => !filters.propertyTypes.includes(t.value))
+
+  // Price placeholders based on listing type
+  const pricePlaceholders = filters.listingType === 'sale'
+    ? { min: 'Min (e.g. 100,000)', max: 'Max (e.g. 500,000)' }
+    : { min: 'Min (e.g. 500)', max: 'Max (e.g. 2,000)' }
+
   return (
-    <div className="glass-card rounded-3xl p-6 md:p-8 border border-white/30">
+    <div className="bg-white/95 backdrop-blur-xl rounded-3xl p-6 md:p-8 border border-neutral-200 shadow-luxury">
       {/* Search Type Toggle - Buy / Rent */}
       <div className="flex justify-center gap-2 mb-6">
         <button
@@ -132,7 +237,7 @@ export function HomeSearchBox() {
             "px-8 py-2.5 rounded-full font-semibold transition-all duration-300 flex items-center gap-2",
             filters.listingType === 'sale'
               ? "bg-gradient-to-r from-primary-500 to-primary-600 text-white shadow-gold"
-              : "bg-white/20 text-white hover:bg-white/30"
+              : "bg-neutral-100 text-neutral-600 hover:bg-neutral-200"
           )}
         >
           <Building2 className="h-4 w-4" />
@@ -144,7 +249,7 @@ export function HomeSearchBox() {
             "px-8 py-2.5 rounded-full font-semibold transition-all duration-300 flex items-center gap-2",
             filters.listingType === 'rent'
               ? "bg-gradient-to-r from-blue-500 to-blue-600 text-white shadow-lg"
-              : "bg-white/20 text-white hover:bg-white/30"
+              : "bg-neutral-100 text-neutral-600 hover:bg-neutral-200"
           )}
         >
           <Home className="h-4 w-4" />
@@ -153,81 +258,138 @@ export function HomeSearchBox() {
       </div>
 
       {/* Main Search Fields */}
-      <div className="grid grid-cols-1 md:grid-cols-4 gap-4 mb-4">
-        {/* Location */}
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 mb-4">
+        {/* Location - Hybrid Multi-Select */}
         <div className="relative">
-          <label className="block text-xs font-semibold text-white/80 mb-2 tracking-wide uppercase">
+          <label className="block text-xs font-semibold text-neutral-600 mb-2 tracking-wide uppercase">
             Location
           </label>
           <div className="relative">
-            <MapPin className="absolute left-4 top-1/2 -translate-y-1/2 h-5 w-5 text-primary-400" />
+            <MapPin className="absolute left-4 top-1/2 -translate-y-1/2 h-5 w-5 text-primary-500 z-10" />
             <select
-              value={filters.location}
-              onChange={(e) => updateFilter('location', e.target.value)}
-              className="input-luxury pl-12 bg-white/95 text-neutral-800"
+              value={tempLocation}
+              onChange={(e) => {
+                addLocation(e.target.value)
+              }}
+              className="w-full pl-12 pr-4 py-3.5 rounded-xl border-2 border-neutral-200 bg-white text-neutral-800 font-medium focus:border-primary-500 focus:ring-2 focus:ring-primary-500/20 transition-all appearance-none cursor-pointer"
             >
-              {LOCATIONS.map(loc => (
+              <option value="">{filters.locations.length > 0 ? 'Add more...' : 'All Areas'}</option>
+              {availableLocations.map(loc => (
                 <option key={loc.value} value={loc.value}>{loc.label}</option>
               ))}
             </select>
           </div>
+          {/* Selected Location Tags */}
+          {filters.locations.length > 0 && (
+            <div className="flex flex-wrap gap-1.5 mt-2">
+              {filters.locations.map(loc => (
+                <span
+                  key={loc}
+                  className="inline-flex items-center gap-1 px-2.5 py-1 rounded-full bg-primary-100 text-primary-700 text-xs font-semibold border border-primary-200"
+                >
+                  {LOCATIONS.find(l => l.value === loc)?.label || loc}
+                  <button onClick={() => removeLocation(loc)} className="hover:bg-primary-200 rounded-full p-0.5 transition-colors">
+                    <X className="h-3 w-3" />
+                  </button>
+                </span>
+              ))}
+            </div>
+          )}
         </div>
 
-        {/* Property Type */}
+        {/* Property Type - Hybrid Multi-Select */}
         <div className="relative">
-          <label className="block text-xs font-semibold text-white/80 mb-2 tracking-wide uppercase">
+          <label className="block text-xs font-semibold text-neutral-600 mb-2 tracking-wide uppercase">
             Property Type
           </label>
           <div className="relative">
-            <Home className="absolute left-4 top-1/2 -translate-y-1/2 h-5 w-5 text-primary-400" />
+            <Home className="absolute left-4 top-1/2 -translate-y-1/2 h-5 w-5 text-primary-500 z-10" />
             <select
-              value={filters.propertyType}
-              onChange={(e) => updateFilter('propertyType', e.target.value)}
-              className="input-luxury pl-12 bg-white/95 text-neutral-800"
+              value={tempPropertyType}
+              onChange={(e) => {
+                addPropertyType(e.target.value)
+              }}
+              className="w-full pl-12 pr-4 py-3.5 rounded-xl border-2 border-neutral-200 bg-white text-neutral-800 font-medium focus:border-primary-500 focus:ring-2 focus:ring-primary-500/20 transition-all appearance-none cursor-pointer"
             >
-              {PROPERTY_TYPES.map(type => (
+              <option value="">{filters.propertyTypes.length > 0 ? 'Add more...' : 'All Types'}</option>
+              {availablePropertyTypes.map(type => (
                 <option key={type.value} value={type.value}>{type.label}</option>
               ))}
             </select>
           </div>
+          {/* Selected Property Type Tags */}
+          {filters.propertyTypes.length > 0 && (
+            <div className="flex flex-wrap gap-1.5 mt-2">
+              {filters.propertyTypes.map(type => (
+                <span
+                  key={type}
+                  className="inline-flex items-center gap-1 px-2.5 py-1 rounded-full bg-primary-100 text-primary-700 text-xs font-semibold border border-primary-200"
+                >
+                  {type}
+                  <button onClick={() => removePropertyType(type)} className="hover:bg-primary-200 rounded-full p-0.5 transition-colors">
+                    <X className="h-3 w-3" />
+                  </button>
+                </span>
+              ))}
+            </div>
+          )}
         </div>
 
-        {/* Price Range */}
-        <div className="relative">
-          <label className="block text-xs font-semibold text-white/80 mb-2 tracking-wide uppercase">
-            Budget
+        {/* Price Range - Dual Inputs */}
+        <div className="relative lg:col-span-2">
+          <label className="block text-xs font-semibold text-neutral-600 mb-2 tracking-wide uppercase">
+            Budget (KWD{filters.listingType === 'rent' ? '/month' : ''})
           </label>
-          <div className="relative">
-            <DollarSign className="absolute left-4 top-1/2 -translate-y-1/2 h-5 w-5 text-primary-400" />
-            <select
-              value={filters.priceRange}
-              onChange={(e) => updateFilter('priceRange', e.target.value)}
-              className="input-luxury pl-12 bg-white/95 text-neutral-800"
-            >
-              {priceRanges.map(range => (
-                <option key={range.value} value={range.value}>{range.label}</option>
-              ))}
-            </select>
+          <div className="grid grid-cols-2 gap-2">
+            <div className="relative">
+              <DollarSign className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-primary-500" />
+              <input
+                type="text"
+                value={filters.priceMin}
+                onChange={(e) => updateFilter('priceMin', formatNumber(e.target.value))}
+                placeholder={pricePlaceholders.min}
+                className="w-full pl-9 pr-4 py-3.5 rounded-xl border-2 border-neutral-200 bg-white text-neutral-800 font-medium placeholder:text-neutral-400 focus:border-primary-500 focus:ring-2 focus:ring-primary-500/20 transition-all text-sm"
+              />
+            </div>
+            <div className="relative">
+              <DollarSign className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-primary-500" />
+              <input
+                type="text"
+                value={filters.priceMax}
+                onChange={(e) => updateFilter('priceMax', formatNumber(e.target.value))}
+                placeholder={pricePlaceholders.max}
+                className="w-full pl-9 pr-4 py-3.5 rounded-xl border-2 border-neutral-200 bg-white text-neutral-800 font-medium placeholder:text-neutral-400 focus:border-primary-500 focus:ring-2 focus:ring-primary-500/20 transition-all text-sm"
+              />
+            </div>
           </div>
         </div>
+      </div>
 
-        {/* Bedrooms */}
-        <div className="relative">
-          <label className="block text-xs font-semibold text-white/80 mb-2 tracking-wide uppercase">
-            Bedrooms
-          </label>
-          <div className="relative">
-            <Bed className="absolute left-4 top-1/2 -translate-y-1/2 h-5 w-5 text-primary-400" />
-            <select
-              value={filters.bedrooms}
-              onChange={(e) => updateFilter('bedrooms', e.target.value)}
-              className="input-luxury pl-12 bg-white/95 text-neutral-800"
-            >
-              {BEDROOM_OPTIONS.map(opt => (
-                <option key={opt.value} value={opt.value}>{opt.label}</option>
-              ))}
-            </select>
-          </div>
+      {/* Quick Amenities - 8 Chips */}
+      <div className="mb-4">
+        <label className="block text-xs font-semibold text-neutral-600 mb-3 tracking-wide uppercase text-center">
+          Quick Amenities
+        </label>
+        <div className="flex flex-wrap justify-center gap-2">
+          {QUICK_AMENITIES.map(amenity => {
+            const Icon = amenity.icon
+            const isSelected = filters.amenities.includes(amenity.id)
+            return (
+              <button
+                key={amenity.id}
+                onClick={() => toggleAmenity(amenity.id)}
+                className={cn(
+                  "px-3 py-2 rounded-full text-sm font-medium transition-all duration-300 flex items-center gap-1.5 border-2",
+                  isSelected
+                    ? "bg-gradient-to-r from-primary-500 to-primary-600 text-white border-primary-500 shadow-gold"
+                    : "bg-neutral-50 text-neutral-700 border-neutral-200 hover:border-primary-300 hover:bg-primary-50"
+                )}
+              >
+                <Icon className="h-4 w-4" />
+                {amenity.label}
+              </button>
+            )
+          })}
         </div>
       </div>
 
@@ -235,12 +397,12 @@ export function HomeSearchBox() {
       <div className="flex justify-center mb-4">
         <button
           onClick={() => setShowAdvanced(!showAdvanced)}
-          className="flex items-center gap-2 text-white/80 hover:text-white text-sm font-medium transition-colors"
+          className="flex items-center gap-2 text-neutral-600 hover:text-neutral-800 text-sm font-medium transition-colors"
         >
           <SlidersHorizontal className="h-4 w-4" />
           {showAdvanced ? 'Hide' : 'More'} Filters
           {activeFilterCount > 0 && !showAdvanced && (
-            <span className="px-2 py-0.5 rounded-full bg-primary-500/80 text-white text-xs font-semibold">
+            <span className="px-2 py-0.5 rounded-full bg-primary-500 text-white text-xs font-semibold">
               {activeFilterCount}
             </span>
           )}
@@ -249,18 +411,37 @@ export function HomeSearchBox() {
 
       {/* Advanced Filters Panel */}
       {showAdvanced && (
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-6 p-4 rounded-2xl bg-white/10 backdrop-blur-sm animate-fade-in">
+        <div className="grid grid-cols-1 md:grid-cols-4 gap-4 mb-6 p-4 rounded-2xl bg-neutral-50 border border-neutral-200 animate-fade-in">
+          {/* Bedrooms */}
+          <div className="relative">
+            <label className="block text-xs font-semibold text-neutral-600 mb-2 tracking-wide uppercase">
+              Bedrooms
+            </label>
+            <div className="relative">
+              <Bed className="absolute left-4 top-1/2 -translate-y-1/2 h-5 w-5 text-primary-500" />
+              <select
+                value={filters.bedrooms}
+                onChange={(e) => updateFilter('bedrooms', e.target.value)}
+                className="w-full pl-12 pr-4 py-3.5 rounded-xl border-2 border-neutral-200 bg-white text-neutral-800 font-medium focus:border-primary-500 focus:ring-2 focus:ring-primary-500/20 transition-all appearance-none cursor-pointer"
+              >
+                {BEDROOM_OPTIONS.map(opt => (
+                  <option key={opt.value} value={opt.value}>{opt.label}</option>
+                ))}
+              </select>
+            </div>
+          </div>
+
           {/* Bathrooms */}
           <div className="relative">
-            <label className="block text-xs font-semibold text-white/80 mb-2 tracking-wide uppercase">
+            <label className="block text-xs font-semibold text-neutral-600 mb-2 tracking-wide uppercase">
               Bathrooms
             </label>
             <div className="relative">
-              <Bath className="absolute left-4 top-1/2 -translate-y-1/2 h-5 w-5 text-primary-400" />
+              <Bath className="absolute left-4 top-1/2 -translate-y-1/2 h-5 w-5 text-primary-500" />
               <select
                 value={filters.bathrooms}
                 onChange={(e) => updateFilter('bathrooms', e.target.value)}
-                className="input-luxury pl-12 bg-white/95 text-neutral-800"
+                className="w-full pl-12 pr-4 py-3.5 rounded-xl border-2 border-neutral-200 bg-white text-neutral-800 font-medium focus:border-primary-500 focus:ring-2 focus:ring-primary-500/20 transition-all appearance-none cursor-pointer"
               >
                 {BATHROOM_OPTIONS.map(opt => (
                   <option key={opt.value} value={opt.value}>{opt.label}</option>
@@ -269,19 +450,31 @@ export function HomeSearchBox() {
             </div>
           </div>
 
+          {/* Area Size */}
+          <div className="relative">
+            <label className="block text-xs font-semibold text-neutral-600 mb-2 tracking-wide uppercase">
+              Size (sqm)
+            </label>
+            <div className="relative">
+              <Maximize2 className="absolute left-4 top-1/2 -translate-y-1/2 h-5 w-5 text-primary-500" />
+              <select
+                value={filters.areaSize}
+                onChange={(e) => updateFilter('areaSize', e.target.value)}
+                className="w-full pl-12 pr-4 py-3.5 rounded-xl border-2 border-neutral-200 bg-white text-neutral-800 font-medium focus:border-primary-500 focus:ring-2 focus:ring-primary-500/20 transition-all appearance-none cursor-pointer"
+              >
+                {AREA_SIZE_OPTIONS.map(opt => (
+                  <option key={opt.value} value={opt.value}>{opt.label}</option>
+                ))}
+              </select>
+            </div>
+          </div>
+
           {/* Clear Filters */}
-          <div className="md:col-span-2 flex items-end justify-end">
+          <div className="flex items-end justify-center md:justify-end">
             {activeFilterCount > 0 && (
               <button
-                onClick={() => setFilters({
-                  listingType: filters.listingType,
-                  location: '',
-                  propertyType: '',
-                  priceRange: '',
-                  bedrooms: '',
-                  bathrooms: '',
-                })}
-                className="flex items-center gap-2 text-white/70 hover:text-white text-sm font-medium transition-colors"
+                onClick={clearAllFilters}
+                className="flex items-center gap-2 text-red-500 hover:text-red-600 text-sm font-medium transition-colors px-4 py-2 rounded-lg hover:bg-red-50"
               >
                 <X className="h-4 w-4" />
                 Clear all filters
@@ -294,7 +487,7 @@ export function HomeSearchBox() {
       {/* Search Button */}
       <button
         onClick={handleSearch}
-        className="btn-luxury w-full py-4 text-lg flex items-center justify-center gap-3"
+        className="w-full py-4 text-lg flex items-center justify-center gap-3 bg-gradient-to-r from-primary-500 to-primary-600 text-white font-semibold rounded-xl shadow-gold hover:shadow-gold-lg transition-all duration-300 hover:scale-[1.01]"
       >
         <Search className="h-5 w-5" />
         <span>
@@ -304,14 +497,14 @@ export function HomeSearchBox() {
       </button>
 
       {/* Quick Stats */}
-      <div className="flex items-center justify-center gap-6 mt-6 text-white/60 text-sm">
+      <div className="flex items-center justify-center gap-6 mt-6 text-neutral-500 text-sm">
         <span className="flex items-center gap-1">
-          <Building2 className="h-4 w-4 text-primary-400" />
+          <Building2 className="h-4 w-4 text-primary-500" />
           2,500+ Properties
         </span>
-        <span className="hidden md:block w-px h-4 bg-white/30" />
+        <span className="hidden md:block w-px h-4 bg-neutral-300" />
         <span className="hidden md:flex items-center gap-1">
-          <MapPin className="h-4 w-4 text-primary-400" />
+          <MapPin className="h-4 w-4 text-primary-500" />
           All Kuwait Areas
         </span>
       </div>
