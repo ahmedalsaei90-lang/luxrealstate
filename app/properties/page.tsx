@@ -26,31 +26,57 @@ function PropertiesLoading() {
   )
 }
 
+// Helper to parse price range from URL
+function parsePriceRange(priceParam: string | null): [number, number] {
+  if (!priceParam) return [0, 5000000]
+  const [min, max] = priceParam.split('-').map(Number)
+  if (isNaN(min) || isNaN(max)) return [0, 5000000]
+  return [min, max]
+}
+
 // Main component that uses useSearchParams
 function PropertiesContent() {
   const searchParams = useSearchParams()
+
+  // Read all URL parameters
   const listingTypeParam = searchParams.get('type') as 'sale' | 'rent' | null
+  const locationParam = searchParams.get('location')
+  const propertyTypeParam = searchParams.get('propertyType')
+  const priceParam = searchParams.get('price')
+  const bedsParam = searchParams.get('beds')
+  const bathsParam = searchParams.get('baths')
 
   const [viewMode, setViewMode] = useState<ViewMode>('grid')
   const [sortBy, setSortBy] = useState<SortOption>('recommended')
   const [currentPage, setCurrentPage] = useState(1)
   const [mobileFiltersOpen, setMobileFiltersOpen] = useState(false)
-  const [filters, setFilters] = useState<PropertyFilters>({
+
+  // Initialize filters from URL parameters
+  const [filters, setFilters] = useState<PropertyFilters>(() => ({
     search: '',
-    governorates: [],
-    propertyTypes: [],
-    priceRange: [0, 5000000],
-    bedrooms: null,
-    bathrooms: null,
+    governorates: locationParam ? [locationParam] : [],
+    propertyTypes: propertyTypeParam ? [propertyTypeParam] : [],
+    priceRange: parsePriceRange(priceParam),
+    bedrooms: bedsParam ? parseInt(bedsParam) : null,
+    bathrooms: bathsParam ? parseInt(bathsParam) : null,
     amenities: [],
     listingType: listingTypeParam || undefined,
-  })
+  }))
 
-  // Sync listingType when URL changes
+  // Sync filters when URL changes
   useEffect(() => {
-    setFilters(prev => ({ ...prev, listingType: listingTypeParam || undefined }))
+    setFilters({
+      search: '',
+      governorates: locationParam ? [locationParam] : [],
+      propertyTypes: propertyTypeParam ? [propertyTypeParam] : [],
+      priceRange: parsePriceRange(priceParam),
+      bedrooms: bedsParam ? parseInt(bedsParam) : null,
+      bathrooms: bathsParam ? parseInt(bathsParam) : null,
+      amenities: [],
+      listingType: listingTypeParam || undefined,
+    })
     setCurrentPage(1)
-  }, [listingTypeParam])
+  }, [listingTypeParam, locationParam, propertyTypeParam, priceParam, bedsParam, bathsParam])
 
   // Get page title and description based on listing type
   const pageContent = useMemo(() => {

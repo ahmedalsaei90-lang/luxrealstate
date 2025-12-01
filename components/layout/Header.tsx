@@ -11,8 +11,6 @@ import { useFavoritesStore } from '@/lib/stores/favorites-store'
 const navLinks = [
   { label: 'Home', href: '/' },
   { label: 'Properties', href: '/properties' },
-  { label: 'Buy', href: '/properties?type=sale' },
-  { label: 'Rent', href: '/properties?type=rent' },
   { label: 'About', href: '/about' },
   { label: 'Contact', href: '/contact' },
 ]

@@ -3,12 +3,12 @@
 import Link from 'next/link'
 import Image from 'next/image'
 import { PropertyCard } from '@/components/properties/PropertyCard'
+import { HomeSearchBox } from '@/components/home/HomeSearchBox'
 import { featuredProperties, recentProperties } from '@/lib/data/mock-properties'
 import { Button } from '@/components/ui/button'
 import {
-  Search, Building2, Shield, Users, TrendingUp, Star,
-  CheckCircle2, Phone, Mail, MapPin, ChevronRight, Quote,
-  Home, DollarSign, Bed, Bath, ArrowRight, Sparkles, Crown, Award
+  Building2, Shield, Users, TrendingUp, Star,
+  Phone, Quote, ArrowRight, Sparkles, Crown, Award
 } from 'lucide-react'
 
 const areas = [
@@ -155,101 +155,7 @@ export default function HomePage() {
 
             {/* Premium Search Box */}
             <div className="max-w-5xl mx-auto animate-fade-in-up animation-delay-500">
-              <div className="glass-card rounded-3xl p-6 md:p-8 border border-white/30">
-                {/* Search Type Toggle */}
-                <div className="flex justify-center gap-2 mb-6">
-                  <button className="px-6 py-2 rounded-full bg-primary-500 text-white font-medium
-                                   shadow-gold transition-all duration-300">
-                    Buy
-                  </button>
-                  <button className="px-6 py-2 rounded-full bg-white/20 text-white font-medium
-                                   hover:bg-white/30 transition-all duration-300">
-                    Rent
-                  </button>
-                </div>
-
-                {/* Search Fields */}
-                <div className="grid grid-cols-1 md:grid-cols-4 gap-4 mb-6">
-                  {/* Location */}
-                  <div className="relative">
-                    <label className="block text-xs font-semibold text-white/80 mb-2 tracking-wide uppercase">
-                      Location
-                    </label>
-                    <div className="relative">
-                      <MapPin className="absolute left-4 top-1/2 -translate-y-1/2 h-5 w-5 text-primary-400" />
-                      <select className="input-luxury pl-12 bg-white/95 text-neutral-800">
-                        <option value="">All Areas</option>
-                        <option value="salmiya">Salmiya</option>
-                        <option value="kuwait-city">Kuwait City</option>
-                        <option value="fintas">Fintas</option>
-                        <option value="jabriya">Jabriya</option>
-                        <option value="hawalli">Hawalli</option>
-                      </select>
-                    </div>
-                  </div>
-
-                  {/* Property Type */}
-                  <div className="relative">
-                    <label className="block text-xs font-semibold text-white/80 mb-2 tracking-wide uppercase">
-                      Property Type
-                    </label>
-                    <div className="relative">
-                      <Home className="absolute left-4 top-1/2 -translate-y-1/2 h-5 w-5 text-primary-400" />
-                      <select className="input-luxury pl-12 bg-white/95 text-neutral-800">
-                        <option value="">All Types</option>
-                        <option value="villa">Villa</option>
-                        <option value="apartment">Apartment</option>
-                        <option value="penthouse">Penthouse</option>
-                        <option value="townhouse">Townhouse</option>
-                      </select>
-                    </div>
-                  </div>
-
-                  {/* Price Range */}
-                  <div className="relative">
-                    <label className="block text-xs font-semibold text-white/80 mb-2 tracking-wide uppercase">
-                      Budget
-                    </label>
-                    <div className="relative">
-                      <DollarSign className="absolute left-4 top-1/2 -translate-y-1/2 h-5 w-5 text-primary-400" />
-                      <select className="input-luxury pl-12 bg-white/95 text-neutral-800">
-                        <option value="">Any Price</option>
-                        <option value="100k-300k">100K - 300K KWD</option>
-                        <option value="300k-500k">300K - 500K KWD</option>
-                        <option value="500k-1m">500K - 1M KWD</option>
-                        <option value="1m+">1M+ KWD</option>
-                      </select>
-                    </div>
-                  </div>
-
-                  {/* Bedrooms */}
-                  <div className="relative">
-                    <label className="block text-xs font-semibold text-white/80 mb-2 tracking-wide uppercase">
-                      Bedrooms
-                    </label>
-                    <div className="relative">
-                      <Bed className="absolute left-4 top-1/2 -translate-y-1/2 h-5 w-5 text-primary-400" />
-                      <select className="input-luxury pl-12 bg-white/95 text-neutral-800">
-                        <option value="">Any</option>
-                        <option value="1">1+</option>
-                        <option value="2">2+</option>
-                        <option value="3">3+</option>
-                        <option value="4">4+</option>
-                        <option value="5">5+</option>
-                      </select>
-                    </div>
-                  </div>
-                </div>
-
-                {/* Search Button */}
-                <Link href="/properties" className="block">
-                  <button className="btn-luxury w-full py-4 text-lg flex items-center justify-center gap-3">
-                    <Search className="h-5 w-5" />
-                    <span>Search Properties</span>
-                    <ArrowRight className="h-5 w-5" />
-                  </button>
-                </Link>
-              </div>
+              <HomeSearchBox />
             </div>
 
             {/* Quick Stats */}
