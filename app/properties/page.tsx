@@ -1,6 +1,7 @@
 'use client'
 
-import { useState, useMemo } from 'react'
+import { useState, useMemo, useEffect, Suspense } from 'react'
+import { useSearchParams } from 'next/navigation'
 import Link from 'next/link'
 import { PropertyCard } from '@/components/properties/PropertyCard'
 import { PropertyListCard } from '@/components/properties/PropertyListCard'
@@ -9,11 +10,27 @@ import { ViewToggle, ViewMode } from '@/components/properties/ViewToggle'
 import { SortDropdown, SortOption } from '@/components/properties/SortDropdown'
 import { mockProperties, filterProperties, sortProperties } from '@/lib/data/mock-properties'
 import { Button } from '@/components/ui/button'
-import { ChevronLeft, ChevronRight, Home, Building2, Search, SlidersHorizontal, X, MapPin, Sparkles } from 'lucide-react'
+import { ChevronLeft, ChevronRight, Home, Building2, Search, SlidersHorizontal, X, MapPin, Sparkles, Tag, Loader2 } from 'lucide-react'
 
 const ITEMS_PER_PAGE = 12
 
-export default function PropertiesPage() {
+// Loading fallback for Suspense
+function PropertiesLoading() {
+  return (
+    <div className="min-h-screen bg-neutral-50 pt-20 md:pt-24 flex items-center justify-center">
+      <div className="text-center">
+        <Loader2 className="h-10 w-10 animate-spin text-primary-500 mx-auto mb-4" />
+        <p className="text-neutral-600">Loading properties...</p>
+      </div>
+    </div>
+  )
+}
+
+// Main component that uses useSearchParams
+function PropertiesContent() {
+  const searchParams = useSearchParams()
+  const listingTypeParam = searchParams.get('type') as 'sale' | 'rent' | null
+
   const [viewMode, setViewMode] = useState<ViewMode>('grid')
   const [sortBy, setSortBy] = useState<SortOption>('recommended')
   const [currentPage, setCurrentPage] = useState(1)
@@ -26,7 +43,44 @@ export default function PropertiesPage() {
     bedrooms: null,
     bathrooms: null,
     amenities: [],
+    listingType: listingTypeParam || undefined,
   })
+
+  // Sync listingType when URL changes
+  useEffect(() => {
+    setFilters(prev => ({ ...prev, listingType: listingTypeParam || undefined }))
+    setCurrentPage(1)
+  }, [listingTypeParam])
+
+  // Get page title and description based on listing type
+  const pageContent = useMemo(() => {
+    switch (listingTypeParam) {
+      case 'sale':
+        return {
+          title: 'Properties for Sale',
+          subtitle: 'Buy Your Dream Home',
+          description: 'Discover premium properties available for purchase in Kuwait',
+          badge: 'FOR SALE',
+          badgeColor: 'bg-emerald-500/20 text-emerald-400',
+        }
+      case 'rent':
+        return {
+          title: 'Properties for Rent',
+          subtitle: 'Find Your Perfect Rental',
+          description: 'Browse luxury rental properties across Kuwait',
+          badge: 'FOR RENT',
+          badgeColor: 'bg-blue-500/20 text-blue-400',
+        }
+      default:
+        return {
+          title: 'All Properties',
+          subtitle: 'Property in Kuwait',
+          description: 'Browse our exclusive collection of premium properties, from luxury villas to modern apartments',
+          badge: null,
+          badgeColor: '',
+        }
+    }
+  }, [listingTypeParam])
 
   // Filter and sort properties
   const filteredProperties = useMemo(() => {
@@ -57,6 +111,7 @@ export default function PropertiesPage() {
       bedrooms: null,
       bathrooms: null,
       amenities: [],
+      listingType: listingTypeParam || undefined, // Preserve URL-based listing type
     })
     setCurrentPage(1)
   }
@@ -107,14 +162,19 @@ export default function PropertiesPage() {
                              text-sm font-semibold tracking-wide">
                 {filteredProperties.length} Properties
               </span>
+              {pageContent.badge && (
+                <span className={`px-3 py-1 rounded-full text-sm font-semibold tracking-wide ${pageContent.badgeColor}`}>
+                  {pageContent.badge}
+                </span>
+              )}
             </div>
 
             <h1 className="text-3xl md:text-4xl lg:text-5xl font-display font-bold text-white mb-4 tracking-tight">
-              Discover Your Perfect
-              <span className="text-gradient-gold block">Property in Kuwait</span>
+              {pageContent.title === 'All Properties' ? 'Discover Your Perfect' : pageContent.title}
+              <span className="text-gradient-gold block">{pageContent.subtitle}</span>
             </h1>
             <p className="text-lg text-neutral-400 leading-relaxed">
-              Browse our exclusive collection of premium properties, from luxury villas to modern apartments
+              {pageContent.description}
             </p>
           </div>
         </div>
@@ -328,5 +388,14 @@ export default function PropertiesPage() {
         </div>
       </div>
     </div>
+  )
+}
+
+// Default export with Suspense boundary (required for useSearchParams)
+export default function PropertiesPage() {
+  return (
+    <Suspense fallback={<PropertiesLoading />}>
+      <PropertiesContent />
+    </Suspense>
   )
 }

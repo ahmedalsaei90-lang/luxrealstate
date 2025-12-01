@@ -25,6 +25,7 @@ export interface PropertyFilters {
   bedrooms: number | null
   bathrooms: number | null
   amenities: string[]
+  listingType?: 'sale' | 'rent'
 }
 
 interface PropertyFilterPanelProps {
