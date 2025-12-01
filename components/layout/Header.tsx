@@ -28,6 +28,8 @@ export function Header() {
     const handleScroll = () => {
       setIsScrolled(window.scrollY > 50)
     }
+    // Check initial scroll position
+    handleScroll()
     window.addEventListener('scroll', handleScroll)
     return () => window.removeEventListener('scroll', handleScroll)
   }, [])
@@ -40,7 +42,7 @@ export function Header() {
   const headerBg = isHomePage
     ? isScrolled
       ? 'bg-white/95 backdrop-blur-xl shadow-luxury border-b border-neutral-100'
-      : 'bg-transparent'
+      : 'bg-transparent border-b border-transparent'
     : 'bg-white/95 backdrop-blur-xl shadow-luxury border-b border-neutral-100'
 
   const textColor = isHomePage && !isScrolled ? 'text-white' : 'text-neutral-800'
@@ -92,9 +94,13 @@ export function Header() {
                   href={link.href}
                   className={cn(
                     "px-4 py-2 rounded-lg font-medium text-sm transition-all duration-300",
-                    "hover:bg-primary-50/80 hover:text-primary-600",
+                    isHomePage && !isScrolled
+                      ? "hover:bg-white/10 hover:text-white"
+                      : "hover:bg-primary-50/80 hover:text-primary-600",
                     textColor,
-                    isActive && "bg-primary-50 text-primary-600"
+                    isActive && (isHomePage && !isScrolled
+                      ? "text-primary-400"
+                      : "bg-primary-50 text-primary-600")
                   )}
                 >
                   {link.label}
