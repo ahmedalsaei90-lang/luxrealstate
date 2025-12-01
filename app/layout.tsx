@@ -1,6 +1,8 @@
 import type { Metadata } from 'next'
 import { Inter, Cormorant_Garamond, Playfair_Display } from 'next/font/google'
 import { Toaster } from '@/components/ui/sonner'
+import { Header } from '@/components/layout/Header'
+import { Footer } from '@/components/layout/Footer'
 import './globals.css'
 
 const inter = Inter({
@@ -26,7 +28,13 @@ const playfair = Playfair_Display({
 export const metadata: Metadata = {
   title: 'Elite Properties Kuwait - Luxury Real Estate',
   description: 'Discover exceptional properties curated for discerning investors',
-  viewport: 'width=device-width, initial-scale=1, maximum-scale=5, user-scalable=yes',
+}
+
+export const viewport = {
+  width: 'device-width',
+  initialScale: 1,
+  maximumScale: 5,
+  userScalable: true,
 }
 
 export default function RootLayout({
@@ -41,7 +49,11 @@ export default function RootLayout({
       suppressHydrationWarning
     >
       <body className="font-body antialiased bg-neutral-50">
-        {children}
+        <Header />
+        <main className="min-h-screen">
+          {children}
+        </main>
+        <Footer />
         <Toaster position="top-right" richColors />
       </body>
     </html>

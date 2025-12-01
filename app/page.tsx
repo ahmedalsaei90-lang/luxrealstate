@@ -80,7 +80,7 @@ const stats = [
 
 export default function HomePage() {
   return (
-    <main className="min-h-screen overflow-hidden">
+    <div className="overflow-hidden">
       {/* Hero Section - Immersive Kuwait Landmark Experience */}
       <section
         className="relative min-h-screen flex items-center justify-center overflow-hidden"
@@ -599,6 +599,6 @@ export default function HomePage() {
           </div>
         </div>
       </section>
-    </main>
+    </div>
   )
 }

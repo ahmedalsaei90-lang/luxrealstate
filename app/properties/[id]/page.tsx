@@ -3,7 +3,7 @@
 import { useState, useMemo } from 'react'
 import { useParams } from 'next/navigation'
 import Image from 'next/image'
-import { motion } from 'framer-motion'
+import Link from 'next/link'
 import {
   Share2,
   MapPin,
@@ -22,13 +22,18 @@ import {
   Calendar,
   Eye,
   CheckCircle2,
+  Crown,
+  Star,
+  ArrowLeft,
+  ChevronRight,
+  Building2,
+  Home,
 } from 'lucide-react'
 import { PropertyGallery, PropertyGalleryGrid } from '@/components/properties/PropertyGallery'
 import { PropertyCard } from '@/components/properties/PropertyCard'
 import { QuickInquiryModal } from '@/components/properties/QuickInquiryModal'
 import { FavoriteButton } from '@/components/user/FavoriteButton'
 import { WhatsAppButton } from '@/components/properties/WhatsAppButton'
-import { Breadcrumb, BreadcrumbItem } from '@/components/ui/breadcrumb'
 import { Button } from '@/components/ui/button'
 import { Badge } from '@/components/ui/badge'
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs'
@@ -74,19 +79,23 @@ export default function PropertyDetailPage() {
 
   if (!property) {
     return (
-      <div className="min-h-screen flex items-center justify-center">
+      <div className="min-h-screen flex items-center justify-center pt-24">
         <div className="text-center">
-          <h1 className="text-2xl font-bold text-neutral-900 mb-2">Property not found</h1>
-          <p className="text-neutral-600">The property you're looking for doesn't exist.</p>
+          <div className="w-20 h-20 rounded-full bg-neutral-100 flex items-center justify-center mx-auto mb-6">
+            <Building2 className="h-10 w-10 text-neutral-400" />
+          </div>
+          <h1 className="text-2xl font-bold text-neutral-900 mb-2 font-display">Property not found</h1>
+          <p className="text-neutral-600 mb-6">The property you're looking for doesn't exist.</p>
+          <Link href="/properties">
+            <Button className="bg-gradient-to-r from-primary-500 to-primary-600 text-white shadow-gold">
+              <ArrowLeft className="h-4 w-4 mr-2" />
+              Browse Properties
+            </Button>
+          </Link>
         </div>
       </div>
     )
   }
-
-  const breadcrumbItems: BreadcrumbItem[] = [
-    { label: 'Properties', href: '/properties' },
-    { label: property.title },
-  ]
 
   const handleShare = async () => {
     if (navigator.share) {
@@ -111,17 +120,45 @@ export default function PropertyDetailPage() {
   }
 
   return (
-    <div className="min-h-screen bg-neutral-50">
-      {/* Breadcrumb */}
-      <div className="bg-white border-b border-neutral-200">
+    <div className="min-h-screen bg-neutral-50 pt-20 md:pt-24">
+      {/* Breadcrumb & Quick Nav */}
+      <div className="bg-white border-b border-neutral-200 sticky top-20 md:top-24 z-40">
         <div className="container mx-auto px-4 py-4">
-          <Breadcrumb items={breadcrumbItems} />
+          <div className="flex items-center justify-between">
+            <nav className="flex items-center gap-2 text-sm">
+              <Link href="/" className="text-neutral-500 hover:text-primary-600 transition-colors">
+                <Home className="h-4 w-4" />
+              </Link>
+              <ChevronRight className="h-4 w-4 text-neutral-300" />
+              <Link href="/properties" className="text-neutral-500 hover:text-primary-600 transition-colors">
+                Properties
+              </Link>
+              <ChevronRight className="h-4 w-4 text-neutral-300" />
+              <span className="text-neutral-800 font-medium truncate max-w-[200px]">
+                {property.title}
+              </span>
+            </nav>
+
+            <div className="flex items-center gap-2">
+              <FavoriteButton
+                propertyId={property.id}
+                propertyTitle={property.title}
+                variant="outline"
+                size="sm"
+                className="rounded-lg"
+              />
+              <Button variant="outline" size="sm" onClick={handleShare} className="rounded-lg">
+                <Share2 className="h-4 w-4 mr-2" />
+                Share
+              </Button>
+            </div>
+          </div>
         </div>
       </div>
 
-      <div className="container mx-auto px-4 py-4 md:py-6 lg:py-8">
+      <div className="container mx-auto px-4 py-6 md:py-8">
         {/* Gallery */}
-        <div className="mb-4 md:mb-6 lg:mb-8">
+        <div className="mb-6 md:mb-8 animate-fade-in">
           <PropertyGalleryGrid
             images={property.images}
             title={property.title}
@@ -129,157 +166,160 @@ export default function PropertyDetailPage() {
           />
         </div>
 
-        <div className="grid grid-cols-1 lg:grid-cols-3 gap-4 md:gap-6 lg:gap-8">
+        <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 md:gap-8">
           {/* Main Content */}
-          <div className="lg:col-span-2 space-y-4 md:space-y-6">
-            {/* Header */}
-            <div className="bg-white rounded-lg shadow-sm border border-neutral-200 p-4 md:p-6">
-              <div className="flex items-start justify-between mb-3 md:mb-4">
-                <div className="flex-1">
-                  <div className="flex flex-wrap items-center gap-2 mb-2 md:mb-3">
-                    {property.featured && (
-                      <Badge className="bg-gradient-to-r from-primary-500 to-primary-600">
-                        Featured
-                      </Badge>
-                    )}
-                    {property.verified && (
-                      <Badge className="bg-green-500">
-                        <CheckCircle2 className="h-3 w-3 mr-1" />
-                        Verified
-                      </Badge>
-                    )}
-                    {property.no_commission && (
-                      <Badge className="bg-accent-500">No Commission</Badge>
-                    )}
-                  </div>
-
-                  <h1 className="text-2xl md:text-3xl font-display font-bold text-neutral-900 mb-2">
-                    {property.title}
-                  </h1>
-
-                  <div className="flex items-center gap-2 text-neutral-600 mb-3 md:mb-4">
-                    <MapPin className="h-4 md:h-5 w-4 md:w-5 text-primary-500" />
-                    <span className="text-sm md:text-base font-medium">{property.area}, {property.governorate}</span>
-                  </div>
-
-                  <div className="flex flex-wrap items-center gap-3 md:gap-4 text-xs md:text-sm text-neutral-500">
-                    <div className="flex items-center gap-1">
-                      <Eye className="h-3 md:h-4 w-3 md:w-4" />
-                      <span>{property.view_count} views</span>
-                    </div>
-                    <span>•</span>
-                    <span>Listed {property.days_listed} days ago</span>
-                  </div>
-                </div>
-
-                <div className="flex gap-2 shrink-0">
-                  <FavoriteButton
-                    propertyId={property.id}
-                    propertyTitle={property.title}
-                    variant="outline"
-                    size="icon"
-                    showText={false}
-                  />
-                  <Button variant="outline" size="icon" onClick={handleShare}>
-                    <Share2 className="h-4 md:h-5 w-4 md:w-5" />
-                  </Button>
-                </div>
+          <div className="lg:col-span-2 space-y-6">
+            {/* Header Card */}
+            <div className="bg-white rounded-2xl shadow-luxury p-6 md:p-8 animate-fade-in-up">
+              {/* Badges */}
+              <div className="flex flex-wrap items-center gap-2 mb-4">
+                <Badge
+                  className={cn(
+                    "font-semibold",
+                    property.status === 'For Sale'
+                      ? "bg-emerald-500 text-white border-0"
+                      : "bg-blue-500 text-white border-0"
+                  )}
+                >
+                  {property.status}
+                </Badge>
+                {property.featured && (
+                  <Badge className="bg-gradient-to-r from-primary-500 to-primary-600 text-white border-0 shadow-gold">
+                    <Star className="h-3 w-3 mr-1 fill-white" />
+                    Featured
+                  </Badge>
+                )}
+                {property.verified && (
+                  <Badge className="bg-emerald-100 text-emerald-700 border-0">
+                    <CheckCircle2 className="h-3 w-3 mr-1" />
+                    Verified
+                  </Badge>
+                )}
+                {property.no_commission && (
+                  <Badge className="bg-accent-100 text-accent-700 border-0">No Commission</Badge>
+                )}
               </div>
 
-              <Separator className="my-4 md:my-6" />
+              {/* Title */}
+              <h1 className="text-2xl md:text-3xl lg:text-4xl font-display font-bold text-neutral-900 mb-3">
+                {property.title}
+              </h1>
 
-              {/* Price & Key Info */}
-              <div className="grid grid-cols-2 md:grid-cols-4 gap-4 md:gap-6">
-                <div>
-                  <p className="text-xs md:text-sm text-neutral-600 mb-1">Price</p>
-                  <p className="text-xl md:text-2xl font-bold text-primary-700 font-display">
+              {/* Location */}
+              <div className="flex items-center gap-2 text-neutral-600 mb-4">
+                <MapPin className="h-5 w-5 text-primary-500" />
+                <span className="text-base md:text-lg font-medium">{property.area}, {property.governorate}</span>
+              </div>
+
+              {/* Meta Info */}
+              <div className="flex flex-wrap items-center gap-4 text-sm text-neutral-500 mb-6">
+                <div className="flex items-center gap-1.5">
+                  <Eye className="h-4 w-4" />
+                  <span>{property.view_count} views</span>
+                </div>
+                <span className="w-1 h-1 rounded-full bg-neutral-300" />
+                <span>Listed {property.days_listed} days ago</span>
+                <span className="w-1 h-1 rounded-full bg-neutral-300" />
+                <span className="font-mono text-xs">Ref: EP-{property.id.padStart(4, '0')}</span>
+              </div>
+
+              <Separator className="my-6" />
+
+              {/* Price & Key Stats */}
+              <div className="grid grid-cols-2 md:grid-cols-4 gap-6">
+                <div className="col-span-2 md:col-span-1">
+                  <p className="text-sm text-neutral-500 mb-1">Price</p>
+                  <p className="text-3xl md:text-4xl font-bold text-primary-600 font-display">
                     {formatPrice(property.price)}
                   </p>
-                  <p className="text-xs text-neutral-500 mt-1">
+                  <p className="text-sm text-neutral-500 mt-1">
                     {formatPrice(Math.round(property.price / property.area_sqm))}/sqm
                   </p>
                 </div>
                 <div>
-                  <p className="text-xs md:text-sm text-neutral-600 mb-1">Bedrooms</p>
-                  <div className="flex items-center gap-2">
-                    <Bed className="h-4 md:h-5 w-4 md:w-5 text-neutral-500" />
-                    <span className="text-lg md:text-xl font-semibold">{property.bedrooms}</span>
+                  <p className="text-sm text-neutral-500 mb-1">Bedrooms</p>
+                  <div className="flex items-center gap-3">
+                    <div className="w-12 h-12 rounded-xl bg-primary-50 flex items-center justify-center">
+                      <Bed className="h-6 w-6 text-primary-600" />
+                    </div>
+                    <span className="text-2xl font-bold">{property.bedrooms}</span>
                   </div>
                 </div>
                 <div>
-                  <p className="text-xs md:text-sm text-neutral-600 mb-1">Bathrooms</p>
-                  <div className="flex items-center gap-2">
-                    <Bath className="h-4 md:h-5 w-4 md:w-5 text-neutral-500" />
-                    <span className="text-lg md:text-xl font-semibold">{property.bathrooms}</span>
+                  <p className="text-sm text-neutral-500 mb-1">Bathrooms</p>
+                  <div className="flex items-center gap-3">
+                    <div className="w-12 h-12 rounded-xl bg-primary-50 flex items-center justify-center">
+                      <Bath className="h-6 w-6 text-primary-600" />
+                    </div>
+                    <span className="text-2xl font-bold">{property.bathrooms}</span>
                   </div>
                 </div>
                 <div>
-                  <p className="text-xs md:text-sm text-neutral-600 mb-1">Area</p>
-                  <div className="flex items-center gap-2">
-                    <Maximize className="h-4 md:h-5 w-4 md:w-5 text-neutral-500" />
-                    <span className="text-lg md:text-xl font-semibold">{formatArea(property.area_sqm)}</span>
+                  <p className="text-sm text-neutral-500 mb-1">Area</p>
+                  <div className="flex items-center gap-3">
+                    <div className="w-12 h-12 rounded-xl bg-primary-50 flex items-center justify-center">
+                      <Maximize className="h-6 w-6 text-primary-600" />
+                    </div>
+                    <span className="text-2xl font-bold">{formatArea(property.area_sqm)}</span>
                   </div>
                 </div>
               </div>
             </div>
 
             {/* Tabs */}
-            <Tabs defaultValue="overview" className="w-full">
-              <TabsList className="w-full bg-white border border-neutral-200">
-                <TabsTrigger value="overview" className="flex-1">
+            <Tabs defaultValue="overview" className="w-full animate-fade-in-up animation-delay-200">
+              <TabsList className="w-full bg-white border border-neutral-200 rounded-xl p-1 h-auto">
+                <TabsTrigger value="overview" className="flex-1 rounded-lg py-3 data-[state=active]:bg-primary-50 data-[state=active]:text-primary-700">
                   Overview
                 </TabsTrigger>
-                <TabsTrigger value="features" className="flex-1">
+                <TabsTrigger value="features" className="flex-1 rounded-lg py-3 data-[state=active]:bg-primary-50 data-[state=active]:text-primary-700">
                   Features
                 </TabsTrigger>
-                <TabsTrigger value="location" className="flex-1">
+                <TabsTrigger value="location" className="flex-1 rounded-lg py-3 data-[state=active]:bg-primary-50 data-[state=active]:text-primary-700">
                   Location
                 </TabsTrigger>
               </TabsList>
 
               <TabsContent value="overview" className="mt-6">
-                <div className="bg-white rounded-lg shadow-sm border border-neutral-200 p-6">
-                  <h2 className="text-xl font-semibold mb-4">Description</h2>
+                <div className="bg-white rounded-2xl shadow-luxury p-6 md:p-8">
+                  <h2 className="text-xl font-semibold mb-4 font-display">Description</h2>
                   <p className="text-neutral-700 leading-relaxed whitespace-pre-line">
                     {property.description}
                   </p>
 
-                  <Separator className="my-6" />
+                  <Separator className="my-8" />
 
-                  <h3 className="text-lg font-semibold mb-4">Property Details</h3>
-                  <div className="grid grid-cols-2 gap-4">
-                    <div>
-                      <p className="text-sm text-neutral-600">Property Type</p>
-                      <p className="font-medium">{property.property_type}</p>
+                  <h3 className="text-lg font-semibold mb-6 font-display">Property Details</h3>
+                  <div className="grid grid-cols-2 md:grid-cols-3 gap-6">
+                    <div className="p-4 rounded-xl bg-neutral-50 border border-neutral-100">
+                      <p className="text-sm text-neutral-500 mb-1">Property Type</p>
+                      <p className="font-semibold">{property.property_type}</p>
                     </div>
-                    <div>
-                      <p className="text-sm text-neutral-600">Status</p>
-                      <p className="font-medium">{property.status}</p>
+                    <div className="p-4 rounded-xl bg-neutral-50 border border-neutral-100">
+                      <p className="text-sm text-neutral-500 mb-1">Status</p>
+                      <p className="font-semibold">{property.status}</p>
                     </div>
-                    <div>
-                      <p className="text-sm text-neutral-600">Listing Type</p>
-                      <p className="font-medium capitalize">{property.listing_type}</p>
-                    </div>
-                    <div>
-                      <p className="text-sm text-neutral-600">Reference</p>
-                      <p className="font-medium font-mono">EP-{property.id.padStart(4, '0')}</p>
+                    <div className="p-4 rounded-xl bg-neutral-50 border border-neutral-100">
+                      <p className="text-sm text-neutral-500 mb-1">Listing Type</p>
+                      <p className="font-semibold capitalize">{property.listing_type}</p>
                     </div>
                   </div>
                 </div>
               </TabsContent>
 
               <TabsContent value="features" className="mt-6">
-                <div className="bg-white rounded-lg shadow-sm border border-neutral-200 p-6">
-                  <h2 className="text-xl font-semibold mb-4">Amenities & Features</h2>
+                <div className="bg-white rounded-2xl shadow-luxury p-6 md:p-8">
+                  <h2 className="text-xl font-semibold mb-6 font-display">Amenities & Features</h2>
                   <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                     {property.amenities.map((amenity) => {
                       const Icon = amenityIcons[amenity] || CheckCircle2
                       return (
-                        <div key={amenity} className="flex items-center gap-3">
-                          <div className="w-10 h-10 rounded-lg bg-primary-50 flex items-center justify-center">
-                            <Icon className="h-5 w-5 text-primary-600" />
+                        <div key={amenity} className="flex items-center gap-4 p-4 rounded-xl bg-neutral-50 border border-neutral-100
+                                                     hover:border-primary-200 hover:bg-primary-50/50 transition-all duration-300">
+                          <div className="w-12 h-12 rounded-xl bg-gradient-to-br from-primary-500 to-primary-600 flex items-center justify-center shadow-gold">
+                            <Icon className="h-6 w-6 text-white" />
                           </div>
-                          <span className="font-medium">{amenity}</span>
+                          <span className="font-medium text-neutral-800">{amenity}</span>
                         </div>
                       )
                     })}
@@ -288,13 +328,19 @@ export default function PropertyDetailPage() {
               </TabsContent>
 
               <TabsContent value="location" className="mt-6">
-                <div className="bg-white rounded-lg shadow-sm border border-neutral-200 p-6">
-                  <h2 className="text-xl font-semibold mb-4">Location</h2>
-                  <p className="text-neutral-700 mb-4">
-                    {property.area}, {property.governorate}, Kuwait
-                  </p>
-                  <div className="aspect-video bg-neutral-100 rounded-lg flex items-center justify-center">
-                    <p className="text-neutral-500">Map integration coming soon</p>
+                <div className="bg-white rounded-2xl shadow-luxury p-6 md:p-8">
+                  <h2 className="text-xl font-semibold mb-4 font-display">Location</h2>
+                  <div className="flex items-center gap-2 text-neutral-700 mb-6">
+                    <MapPin className="h-5 w-5 text-primary-500" />
+                    <span>{property.area}, {property.governorate}, Kuwait</span>
+                  </div>
+                  <div className="aspect-video bg-gradient-to-br from-neutral-100 to-neutral-200 rounded-xl
+                                flex items-center justify-center border border-neutral-200">
+                    <div className="text-center">
+                      <MapPin className="h-12 w-12 text-neutral-400 mx-auto mb-3" />
+                      <p className="text-neutral-500 font-medium">Interactive Map</p>
+                      <p className="text-sm text-neutral-400">Coming Soon</p>
+                    </div>
                   </div>
                 </div>
               </TabsContent>
@@ -304,27 +350,41 @@ export default function PropertyDetailPage() {
           {/* Sidebar */}
           <div className="space-y-6">
             {/* Contact Card */}
-            <div className="bg-white rounded-lg shadow-sm border border-neutral-200 p-6 sticky top-8">
-              <h3 className="text-lg font-semibold mb-4">Contact Agent</h3>
+            <div className="bg-white rounded-2xl shadow-luxury p-6 sticky top-44 animate-fade-in-up animation-delay-300">
+              <div className="flex items-center gap-2 mb-6">
+                <Crown className="h-5 w-5 text-primary-500" />
+                <h3 className="text-lg font-semibold font-display">Contact Agent</h3>
+              </div>
 
               {property.agent && (
-                <div className="flex items-center gap-3 mb-6">
+                <div className="flex items-center gap-4 mb-6 p-4 rounded-xl bg-neutral-50 border border-neutral-100">
                   <Image
                     src={property.agent.avatar}
                     alt={property.agent.name}
-                    width={60}
-                    height={60}
-                    className="rounded-full"
+                    width={64}
+                    height={64}
+                    className="rounded-full ring-2 ring-primary-100"
                   />
                   <div>
-                    <p className="font-semibold">{property.agent.name}</p>
-                    <p className="text-sm text-neutral-600">Licensed Agent</p>
+                    <p className="font-semibold text-neutral-900">{property.agent.name}</p>
+                    <p className="text-sm text-neutral-500">Licensed Real Estate Agent</p>
+                    <div className="flex items-center gap-1 mt-1">
+                      {Array.from({ length: 5 }).map((_, i) => (
+                        <Star key={i} className="h-3 w-3 fill-primary-400 text-primary-400" />
+                      ))}
+                      <span className="text-xs text-neutral-500 ml-1">5.0</span>
+                    </div>
                   </div>
                 </div>
               )}
 
               <div className="space-y-3">
-                <Button className="w-full" size="lg" onClick={() => setInquiryOpen(true)}>
+                <Button
+                  className="w-full bg-gradient-to-r from-primary-500 to-primary-600 text-white
+                           hover:from-primary-600 hover:to-primary-700 shadow-gold rounded-xl py-6"
+                  size="lg"
+                  onClick={() => setInquiryOpen(true)}
+                >
                   <Mail className="h-5 w-5 mr-2" />
                   Send Message
                 </Button>
@@ -332,16 +392,30 @@ export default function PropertyDetailPage() {
                   property={property}
                   variant="default"
                   size="lg"
-                  className="w-full"
+                  className="w-full rounded-xl py-6"
                 />
-                <Button variant="outline" className="w-full" size="lg">
+                <Button variant="outline" className="w-full rounded-xl py-6" size="lg">
                   <Phone className="h-5 w-5 mr-2" />
                   Call Now
                 </Button>
-                <Button variant="outline" className="w-full" size="lg">
+                <Button variant="outline" className="w-full rounded-xl py-6" size="lg">
                   <Calendar className="h-5 w-5 mr-2" />
                   Schedule Viewing
                 </Button>
+              </div>
+
+              {/* Trust Indicators */}
+              <div className="mt-6 pt-6 border-t border-neutral-200">
+                <div className="flex items-center justify-center gap-4 text-sm text-neutral-500">
+                  <div className="flex items-center gap-1">
+                    <ShieldCheck className="h-4 w-4 text-emerald-500" />
+                    <span>Verified</span>
+                  </div>
+                  <div className="flex items-center gap-1">
+                    <CheckCircle2 className="h-4 w-4 text-blue-500" />
+                    <span>Licensed</span>
+                  </div>
+                </div>
               </div>
             </div>
           </div>
@@ -349,11 +423,30 @@ export default function PropertyDetailPage() {
 
         {/* Similar Properties */}
         {similarProperties.length > 0 && (
-          <div className="mt-16">
-            <h2 className="text-2xl font-display font-semibold mb-6">Similar Properties</h2>
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-              {similarProperties.map((prop) => (
-                <PropertyCard key={prop.id} property={prop} />
+          <div className="mt-16 md:mt-20 animate-fade-in-up animation-delay-400">
+            <div className="flex items-center justify-between mb-8">
+              <div>
+                <span className="inline-block px-4 py-1.5 rounded-full bg-primary-100 text-primary-700
+                               text-sm font-semibold tracking-wide mb-3">
+                  YOU MAY ALSO LIKE
+                </span>
+                <h2 className="text-2xl md:text-3xl font-display font-semibold">Similar Properties</h2>
+              </div>
+              <Link href="/properties" className="hidden md:flex items-center gap-2 text-primary-600
+                                                 font-semibold hover:text-primary-700 transition-colors">
+                View All
+                <ChevronRight className="h-5 w-5" />
+              </Link>
+            </div>
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 md:gap-8">
+              {similarProperties.map((prop, index) => (
+                <div
+                  key={prop.id}
+                  className="animate-fade-in-up animation-fill-both"
+                  style={{ animationDelay: `${index * 100}ms` }}
+                >
+                  <PropertyCard property={prop} />
+                </div>
               ))}
             </div>
           </div>
