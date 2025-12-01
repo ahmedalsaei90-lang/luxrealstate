@@ -8,38 +8,42 @@ import { Button } from '@/components/ui/button'
 import {
   Search, Building2, Shield, Users, TrendingUp, Star,
   CheckCircle2, Phone, Mail, MapPin, ChevronRight, Quote,
-  Home, DollarSign, Bed, Bath, SlidersHorizontal, ChevronDown
+  Home, DollarSign, Bed, Bath, ArrowRight, Sparkles, Crown, Award
 } from 'lucide-react'
 
 const areas = [
-  { name: 'Salmiya', count: 156, image: 'https://images.unsplash.com/photo-1480074568708-e7b720bb3f09?w=600' },
-  { name: 'Kuwait City', count: 243, image: 'https://images.unsplash.com/photo-1449844908441-8829872d2607?w=600' },
-  { name: 'Fintas', count: 89, image: 'https://images.unsplash.com/photo-1512917774080-9991f1c4c750?w=600' },
-  { name: 'Jabriya', count: 127, image: 'https://images.unsplash.com/photo-1600585154340-be6161a56a0c?w=600' },
-  { name: 'Hawalli', count: 198, image: 'https://images.unsplash.com/photo-1600596542815-ffad4c1539a9?w=600' },
-  { name: 'Salwa', count: 112, image: 'https://images.unsplash.com/photo-1600607687939-ce8a6c25118c?w=600' },
+  { name: 'Salmiya', count: 156, image: 'https://images.unsplash.com/photo-1480074568708-e7b720bb3f09?w=600', premium: true },
+  { name: 'Kuwait City', count: 243, image: 'https://images.unsplash.com/photo-1449844908441-8829872d2607?w=600', premium: true },
+  { name: 'Fintas', count: 89, image: 'https://images.unsplash.com/photo-1512917774080-9991f1c4c750?w=600', premium: false },
+  { name: 'Jabriya', count: 127, image: 'https://images.unsplash.com/photo-1600585154340-be6161a56a0c?w=600', premium: false },
+  { name: 'Hawalli', count: 198, image: 'https://images.unsplash.com/photo-1600596542815-ffad4c1539a9?w=600', premium: true },
+  { name: 'Salwa', count: 112, image: 'https://images.unsplash.com/photo-1600607687939-ce8a6c25118c?w=600', premium: false },
 ]
 
 const features = [
   {
     icon: Shield,
     title: 'Verified Listings',
-    description: 'All properties are thoroughly verified and inspected by our team for authenticity and quality.',
+    description: 'Every property undergoes rigorous verification by our expert team.',
+    gradient: 'from-blue-500 to-blue-600',
   },
   {
-    icon: Users,
-    title: 'Expert Agents',
-    description: 'Work with licensed professionals who have deep knowledge of the Kuwait real estate market.',
+    icon: Crown,
+    title: 'Premium Service',
+    description: 'White-glove service tailored for discerning clients.',
+    gradient: 'from-primary-500 to-primary-600',
   },
   {
     icon: TrendingUp,
     title: 'Market Insights',
-    description: 'Access comprehensive market data and trends to make informed investment decisions.',
+    description: 'Data-driven insights to maximize your investment potential.',
+    gradient: 'from-emerald-500 to-emerald-600',
   },
   {
-    icon: CheckCircle2,
-    title: 'No Hidden Fees',
-    description: 'Transparent pricing with no surprises. What you see is what you pay.',
+    icon: Award,
+    title: 'Award Winning',
+    description: "Kuwait's most trusted luxury real estate partner.",
+    gradient: 'from-purple-500 to-purple-600',
   },
 ]
 
@@ -55,458 +59,448 @@ const testimonials = [
     name: 'Sara Al-Ahmad',
     role: 'First-time Buyer',
     image: 'https://i.pravatar.cc/150?img=45',
-    content: 'As a first-time buyer, I was nervous about the process. The Elite Properties team guided me every step of the way and helped me find my dream home in Jabriya.',
+    content: 'As a first-time buyer, I was nervous about the process. The Elite Properties team guided me every step of the way and helped me find my dream home.',
     rating: 5,
   },
   {
     name: 'Abdullah Al-Khalifa',
     role: 'Business Owner',
     image: 'https://i.pravatar.cc/150?img=33',
-    content: 'I\'ve worked with several real estate companies in Kuwait, but Elite Properties stands out for their professionalism and market expertise. Highly recommended!',
+    content: "I've worked with several real estate companies in Kuwait, but Elite Properties stands out for their professionalism and market expertise.",
     rating: 5,
   },
 ]
 
 const stats = [
-  { value: '2,500+', label: 'Properties' },
-  { value: '1,000+', label: 'Happy Clients' },
-  { value: '95%', label: 'Satisfaction Rate' },
-  { value: '10+', label: 'Years Experience' },
+  { value: '2,500+', label: 'Premium Properties', icon: Building2 },
+  { value: '1,000+', label: 'Happy Clients', icon: Users },
+  { value: '98%', label: 'Satisfaction Rate', icon: Star },
+  { value: '15+', label: 'Years Excellence', icon: Award },
 ]
 
 export default function HomePage() {
   return (
-    <main className="min-h-screen">
-      {/* Hero Section - Kuwait Landmarks */}
+    <main className="min-h-screen overflow-hidden">
+      {/* Hero Section - Immersive Kuwait Landmark Experience */}
       <section
-        className="relative min-h-screen flex items-center justify-center overflow-hidden pt-16 pb-20 md:pt-20 md:pb-32"
+        className="relative min-h-screen flex items-center justify-center overflow-hidden"
         style={{
           backgroundImage: 'url(/kuwait-towers.jpg)',
           backgroundSize: 'cover',
           backgroundPosition: 'center',
-          backgroundRepeat: 'no-repeat'
+          backgroundRepeat: 'no-repeat',
+          backgroundAttachment: 'fixed'
         }}
       >
-        {/* Kuwait Towers & City Background Overlay */}
+        {/* Sophisticated Multi-Layer Overlay */}
         <div className="absolute inset-0">
-          {/* Modern Luxury Overlay - Lets landmarks shine through */}
-          <div className="absolute inset-0 bg-gradient-to-r from-blue-950/35 via-blue-900/15 to-transparent" />
-          <div className="absolute inset-0 bg-gradient-to-t from-black/40 via-black/10 to-transparent" />
+          {/* Base dark overlay for text readability */}
+          <div className="absolute inset-0 bg-gradient-to-b from-navy-950/60 via-navy-900/40 to-navy-950/70" />
 
-          {/* Elegant Gold Accent Gradient */}
-          <div className="absolute inset-0 bg-gradient-to-br from-amber-500/10 via-transparent to-blue-500/10" />
+          {/* Premium gold accent from corners */}
+          <div className="absolute inset-0 bg-gradient-to-br from-primary-500/10 via-transparent to-primary-600/10" />
+
+          {/* Vignette effect for depth */}
+          <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,transparent_0%,rgba(0,0,0,0.4)_100%)]" />
+
+          {/* Bottom gradient for seamless transition */}
+          <div className="absolute bottom-0 left-0 right-0 h-40 bg-gradient-to-t from-neutral-50 via-neutral-50/80 to-transparent" />
         </div>
 
-        <div className="container mx-auto px-4 py-4 md:py-8 text-center relative z-10">
-          <div className="space-y-6 md:space-y-8 max-w-7xl mx-auto animate-fade-in">
-            {/* Luxury Badge */}
-            <div className="inline-block animate-scale-in">
-              <div className="px-6 py-2 rounded-full bg-gradient-to-r from-amber-500/10 to-amber-600/10
-                            backdrop-blur-sm border border-amber-300/60 text-white text-sm font-bold
-                            shadow-lg shadow-amber-500/10"
-                   style={{ textShadow: '0 2px 12px rgba(0,0,0,0.8), 0 0 20px rgba(0,0,0,0.4)' }}>
-                Premium Real Estate in Kuwait
+        {/* Floating Decorative Elements */}
+        <div className="absolute top-20 left-10 w-72 h-72 bg-primary-400/10 rounded-full blur-3xl animate-float" />
+        <div className="absolute bottom-40 right-10 w-96 h-96 bg-blue-400/10 rounded-full blur-3xl animate-float animation-delay-300" />
+
+        <div className="container mx-auto px-4 py-20 md:py-32 text-center relative z-10">
+          <div className="max-w-6xl mx-auto">
+            {/* Premium Badge */}
+            <div className="inline-flex items-center gap-2 mb-8 animate-fade-in-down">
+              <div className="flex items-center gap-2 px-5 py-2.5 rounded-full
+                            bg-white/10 backdrop-blur-md border border-white/20
+                            shadow-luxury">
+                <Sparkles className="h-4 w-4 text-primary-400" />
+                <span className="text-sm font-medium text-white tracking-wide">
+                  Kuwait's Premier Luxury Real Estate
+                </span>
+                <Sparkles className="h-4 w-4 text-primary-400" />
               </div>
             </div>
 
-            {/* Main Heading */}
-            <h1 className="text-4xl md:text-6xl lg:text-7xl font-display font-bold text-white
-                         leading-tight"
-                style={{ textShadow: '0 4px 24px rgba(0,0,0,0.7), 0 2px 12px rgba(0,0,0,0.5), 0 0 40px rgba(0,0,0,0.3)' }}>
-              <span className="bg-gradient-to-r from-white via-blue-50 to-amber-100 bg-clip-text text-transparent"
-                    style={{ textShadow: '0 4px 24px rgba(0,0,0,0.7), 0 0 40px rgba(0,0,0,0.4)' }}>
+            {/* Main Heading with Elegant Typography */}
+            <h1 className="mb-6 animate-fade-in-up animation-delay-200">
+              <span className="block text-5xl md:text-7xl lg:text-8xl font-display font-bold
+                             text-white leading-[1.1] tracking-tight
+                             drop-shadow-[0_4px_30px_rgba(0,0,0,0.5)]">
                 Elite Properties
               </span>
-              <br />
-              <span className="text-3xl md:text-4xl lg:text-5xl font-light text-white">
-                Kuwait
+              <span className="block mt-2 text-2xl md:text-4xl lg:text-5xl font-display font-light
+                             text-gradient-gold tracking-widest">
+                KUWAIT
               </span>
             </h1>
 
+            {/* Luxury Divider */}
+            <div className="flex items-center justify-center gap-4 my-8 animate-fade-in animation-delay-300">
+              <div className="w-16 md:w-24 h-px bg-gradient-to-r from-transparent via-primary-400 to-transparent" />
+              <Crown className="h-5 w-5 text-primary-400" />
+              <div className="w-16 md:w-24 h-px bg-gradient-to-r from-transparent via-primary-400 to-transparent" />
+            </div>
+
             {/* Tagline */}
-            <p className="text-lg md:text-2xl lg:text-3xl text-white font-light max-w-3xl mx-auto
-                        tracking-wide"
-               style={{ textShadow: '0 2px 18px rgba(0,0,0,0.8), 0 1px 8px rgba(0,0,0,0.6), 0 0 30px rgba(0,0,0,0.4)' }}>
-              Where Luxury Meets the Gulf
+            <p className="text-xl md:text-2xl lg:text-3xl text-white/90 font-light
+                        tracking-wide mb-12 animate-fade-in-up animation-delay-400
+                        drop-shadow-lg">
+              Where Luxury Meets the Arabian Gulf
             </p>
 
-            {/* Description */}
-            <p className="text-sm md:text-base lg:text-lg text-white max-w-2xl mx-auto"
-               style={{ textShadow: '0 2px 15px rgba(0,0,0,0.7), 0 1px 8px rgba(0,0,0,0.5), 0 0 25px rgba(0,0,0,0.3)' }}>
-              Discover exceptional properties curated for discerning investors and families
-              <br className="hidden md:block" />
-              in the heart of Kuwait's most prestigious locations
-            </p>
+            {/* Premium Search Box */}
+            <div className="max-w-5xl mx-auto animate-fade-in-up animation-delay-500">
+              <div className="glass-card rounded-3xl p-6 md:p-8 border border-white/30">
+                {/* Search Type Toggle */}
+                <div className="flex justify-center gap-2 mb-6">
+                  <button className="px-6 py-2 rounded-full bg-primary-500 text-white font-medium
+                                   shadow-gold transition-all duration-300">
+                    Buy
+                  </button>
+                  <button className="px-6 py-2 rounded-full bg-white/20 text-white font-medium
+                                   hover:bg-white/30 transition-all duration-300">
+                    Rent
+                  </button>
+                </div>
 
-            {/* Advanced Premium Search Bar */}
-            <div className="max-w-6xl mx-auto mt-6 md:mt-8 lg:mt-10 animate-slide-up">
-              <div className="backdrop-blur-sm bg-white/25 rounded-2xl shadow-2xl
-                            border border-white/20 p-4 md:p-6 lg:p-8">
-
-                {/* Main Search Row */}
-                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 mb-4">
+                {/* Search Fields */}
+                <div className="grid grid-cols-1 md:grid-cols-4 gap-4 mb-6">
                   {/* Location */}
                   <div className="relative">
-                    <label className="block text-xs font-extrabold text-neutral-900 mb-2" style={{ textShadow: '0 1px 4px rgba(255,255,255,1), 0 0 8px rgba(255,255,255,0.6)' }}>
+                    <label className="block text-xs font-semibold text-white/80 mb-2 tracking-wide uppercase">
                       Location
                     </label>
                     <div className="relative">
-                      <MapPin className="absolute left-4 top-1/2 -translate-y-1/2 h-4 w-4 text-primary-600" />
-                      <select className="w-full pl-11 pr-10 py-3.5 rounded-xl border border-white/50
-                                       focus:border-primary-500 focus:outline-none focus:ring-4
-                                       focus:ring-primary-500/20 transition-all text-neutral-900
-                                       font-bold appearance-none bg-white/30 backdrop-blur-sm cursor-pointer
-                                       shadow-md">
+                      <MapPin className="absolute left-4 top-1/2 -translate-y-1/2 h-5 w-5 text-primary-400" />
+                      <select className="input-luxury pl-12 bg-white/95 text-neutral-800">
                         <option value="">All Areas</option>
                         <option value="salmiya">Salmiya</option>
                         <option value="kuwait-city">Kuwait City</option>
                         <option value="fintas">Fintas</option>
                         <option value="jabriya">Jabriya</option>
                         <option value="hawalli">Hawalli</option>
-                        <option value="salwa">Salwa</option>
-                        <option value="mangaf">Mangaf</option>
-                        <option value="mahboula">Mahboula</option>
                       </select>
-                      <ChevronDown className="absolute right-4 top-1/2 -translate-y-1/2 h-4 w-4 text-neutral-400 pointer-events-none" />
                     </div>
                   </div>
 
                   {/* Property Type */}
                   <div className="relative">
-                    <label className="block text-xs font-extrabold text-neutral-900 mb-2" style={{ textShadow: '0 1px 4px rgba(255,255,255,1), 0 0 8px rgba(255,255,255,0.6)' }}>
+                    <label className="block text-xs font-semibold text-white/80 mb-2 tracking-wide uppercase">
                       Property Type
                     </label>
                     <div className="relative">
-                      <Home className="absolute left-4 top-1/2 -translate-y-1/2 h-4 w-4 text-primary-600" />
-                      <select className="w-full pl-11 pr-10 py-3.5 rounded-xl border border-white/50
-                                       focus:border-primary-500 focus:outline-none focus:ring-4
-                                       focus:ring-primary-500/20 transition-all text-neutral-900
-                                       font-bold appearance-none bg-white/30 backdrop-blur-sm cursor-pointer
-                                       shadow-md">
+                      <Home className="absolute left-4 top-1/2 -translate-y-1/2 h-5 w-5 text-primary-400" />
+                      <select className="input-luxury pl-12 bg-white/95 text-neutral-800">
                         <option value="">All Types</option>
-                        <option value="apartment">Apartment</option>
                         <option value="villa">Villa</option>
-                        <option value="house">House</option>
+                        <option value="apartment">Apartment</option>
                         <option value="penthouse">Penthouse</option>
-                        <option value="studio">Studio</option>
-                        <option value="duplex">Duplex</option>
+                        <option value="townhouse">Townhouse</option>
                       </select>
-                      <ChevronDown className="absolute right-4 top-1/2 -translate-y-1/2 h-4 w-4 text-neutral-400 pointer-events-none" />
                     </div>
                   </div>
 
                   {/* Price Range */}
                   <div className="relative">
-                    <label className="block text-xs font-extrabold text-neutral-900 mb-2" style={{ textShadow: '0 1px 4px rgba(255,255,255,1), 0 0 8px rgba(255,255,255,0.6)' }}>
-                      Price Range (KWD)
+                    <label className="block text-xs font-semibold text-white/80 mb-2 tracking-wide uppercase">
+                      Budget
                     </label>
                     <div className="relative">
-                      <DollarSign className="absolute left-4 top-1/2 -translate-y-1/2 h-4 w-4 text-primary-600" />
-                      <select className="w-full pl-11 pr-10 py-3.5 rounded-xl border border-white/50
-                                       focus:border-primary-500 focus:outline-none focus:ring-4
-                                       focus:ring-primary-500/20 transition-all text-neutral-900
-                                       font-bold appearance-none bg-white/30 backdrop-blur-sm cursor-pointer
-                                       shadow-md">
+                      <DollarSign className="absolute left-4 top-1/2 -translate-y-1/2 h-5 w-5 text-primary-400" />
+                      <select className="input-luxury pl-12 bg-white/95 text-neutral-800">
                         <option value="">Any Price</option>
-                        <option value="0-500">Up to 500</option>
-                        <option value="500-1000">500 - 1,000</option>
-                        <option value="1000-2000">1,000 - 2,000</option>
-                        <option value="2000-5000">2,000 - 5,000</option>
-                        <option value="5000+">5,000+</option>
-                        <option value="100000-500000">100K - 500K (Sale)</option>
-                        <option value="500000-1000000">500K - 1M (Sale)</option>
-                        <option value="1000000+">1M+ (Sale)</option>
+                        <option value="100k-300k">100K - 300K KWD</option>
+                        <option value="300k-500k">300K - 500K KWD</option>
+                        <option value="500k-1m">500K - 1M KWD</option>
+                        <option value="1m+">1M+ KWD</option>
                       </select>
-                      <ChevronDown className="absolute right-4 top-1/2 -translate-y-1/2 h-4 w-4 text-neutral-400 pointer-events-none" />
                     </div>
                   </div>
 
                   {/* Bedrooms */}
                   <div className="relative">
-                    <label className="block text-xs font-extrabold text-neutral-900 mb-2" style={{ textShadow: '0 1px 4px rgba(255,255,255,1), 0 0 8px rgba(255,255,255,0.6)' }}>
+                    <label className="block text-xs font-semibold text-white/80 mb-2 tracking-wide uppercase">
                       Bedrooms
                     </label>
                     <div className="relative">
-                      <Bed className="absolute left-4 top-1/2 -translate-y-1/2 h-4 w-4 text-primary-600" />
-                      <select className="w-full pl-11 pr-10 py-3.5 rounded-xl border border-white/50
-                                       focus:border-primary-500 focus:outline-none focus:ring-4
-                                       focus:ring-primary-500/20 transition-all text-neutral-900
-                                       font-bold appearance-none bg-white/30 backdrop-blur-sm cursor-pointer
-                                       shadow-md">
+                      <Bed className="absolute left-4 top-1/2 -translate-y-1/2 h-5 w-5 text-primary-400" />
+                      <select className="input-luxury pl-12 bg-white/95 text-neutral-800">
                         <option value="">Any</option>
-                        <option value="1">1+ Bed</option>
-                        <option value="2">2+ Beds</option>
-                        <option value="3">3+ Beds</option>
-                        <option value="4">4+ Beds</option>
-                        <option value="5">5+ Beds</option>
+                        <option value="1">1+</option>
+                        <option value="2">2+</option>
+                        <option value="3">3+</option>
+                        <option value="4">4+</option>
+                        <option value="5">5+</option>
                       </select>
-                      <ChevronDown className="absolute right-4 top-1/2 -translate-y-1/2 h-4 w-4 text-neutral-400 pointer-events-none" />
                     </div>
                   </div>
                 </div>
 
-                {/* Advanced Filters Row */}
-                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 mb-6">
-                  {/* Bathrooms */}
-                  <div className="relative">
-                    <label className="block text-xs font-extrabold text-neutral-900 mb-2" style={{ textShadow: '0 1px 4px rgba(255,255,255,1), 0 0 8px rgba(255,255,255,0.6)' }}>
-                      Bathrooms
-                    </label>
-                    <div className="relative">
-                      <Bath className="absolute left-4 top-1/2 -translate-y-1/2 h-4 w-4 text-primary-600" />
-                      <select className="w-full pl-11 pr-10 py-3.5 rounded-xl border border-white/50
-                                       focus:border-primary-500 focus:outline-none focus:ring-4
-                                       focus:ring-primary-500/20 transition-all text-neutral-900
-                                       font-bold appearance-none bg-white/30 backdrop-blur-sm cursor-pointer
-                                       shadow-md">
-                        <option value="">Any</option>
-                        <option value="1">1+ Bath</option>
-                        <option value="2">2+ Baths</option>
-                        <option value="3">3+ Baths</option>
-                        <option value="4">4+ Baths</option>
-                      </select>
-                      <ChevronDown className="absolute right-4 top-1/2 -translate-y-1/2 h-4 w-4 text-neutral-400 pointer-events-none" />
-                    </div>
-                  </div>
-
-                  {/* Listing Type */}
-                  <div className="relative">
-                    <label className="block text-xs font-extrabold text-neutral-900 mb-2" style={{ textShadow: '0 1px 4px rgba(255,255,255,1), 0 0 8px rgba(255,255,255,0.6)' }}>
-                      Listing Type
-                    </label>
-                    <div className="relative">
-                      <Building2 className="absolute left-4 top-1/2 -translate-y-1/2 h-4 w-4 text-primary-600" />
-                      <select className="w-full pl-11 pr-10 py-3.5 rounded-xl border border-white/50
-                                       focus:border-primary-500 focus:outline-none focus:ring-4
-                                       focus:ring-primary-500/20 transition-all text-neutral-900
-                                       font-bold appearance-none bg-white/30 backdrop-blur-sm cursor-pointer
-                                       shadow-md">
-                        <option value="">All Listings</option>
-                        <option value="sale">For Sale</option>
-                        <option value="rent">For Rent</option>
-                      </select>
-                      <ChevronDown className="absolute right-4 top-1/2 -translate-y-1/2 h-4 w-4 text-neutral-400 pointer-events-none" />
-                    </div>
-                  </div>
-
-                  {/* Features */}
-                  <div className="relative">
-                    <label className="block text-xs font-extrabold text-neutral-900 mb-2" style={{ textShadow: '0 1px 4px rgba(255,255,255,1), 0 0 8px rgba(255,255,255,0.6)' }}>
-                      Special Features
-                    </label>
-                    <div className="relative">
-                      <Star className="absolute left-4 top-1/2 -translate-y-1/2 h-4 w-4 text-primary-600" />
-                      <select className="w-full pl-11 pr-10 py-3.5 rounded-xl border border-white/50
-                                       focus:border-primary-500 focus:outline-none focus:ring-4
-                                       focus:ring-primary-500/20 transition-all text-neutral-900
-                                       font-bold appearance-none bg-white/30 backdrop-blur-sm cursor-pointer
-                                       shadow-md">
-                        <option value="">Any Features</option>
-                        <option value="featured">Featured Only</option>
-                        <option value="verified">Verified Only</option>
-                        <option value="no-commission">No Commission</option>
-                        <option value="new">New Listings</option>
-                      </select>
-                      <ChevronDown className="absolute right-4 top-1/2 -translate-y-1/2 h-4 w-4 text-neutral-400 pointer-events-none" />
-                    </div>
-                  </div>
-
-                  {/* Search Button */}
-                  <div className="relative flex items-end">
-                    <Link href="/properties" className="w-full">
-                      <Button
-                        size="lg"
-                        className="w-full px-8 py-3.5 h-auto text-base font-semibold
-                                 bg-gradient-to-r from-primary-600 to-primary-700
-                                 hover:from-primary-700 hover:to-primary-800
-                                 shadow-lg shadow-primary-500/30 hover:shadow-xl
-                                 hover:shadow-primary-500/40 transition-all rounded-xl"
-                      >
-                        <Search className="h-5 w-5 mr-2" />
-                        Search
-                      </Button>
-                    </Link>
-                  </div>
-                </div>
-
-                {/* Quick Filter Tags */}
-                <div className="pt-4 border-t border-white/20">
-                  <div className="flex items-center gap-2 overflow-x-auto pb-2 -mx-1 px-1 scrollbar-hide">
-                    <span className="text-xs font-bold text-neutral-900 shrink-0" style={{ textShadow: '0 1px 4px rgba(255,255,255,1), 0 0 8px rgba(255,255,255,0.5)' }}>Quick:</span>
-                    <button className="px-3 py-1.5 text-xs font-bold rounded-full bg-white/25 backdrop-blur-sm
-                                     hover:bg-primary-100/50 hover:text-primary-700 transition-colors shrink-0 whitespace-nowrap
-                                     border border-white/60 shadow-md text-neutral-900">
-                      Luxury Villas
-                    </button>
-                    <button className="px-3 py-1.5 text-xs font-bold rounded-full bg-white/25 backdrop-blur-sm
-                                     hover:bg-primary-100/50 hover:text-primary-700 transition-colors shrink-0 whitespace-nowrap
-                                     border border-white/60 shadow-md text-neutral-900">
-                      Sea View
-                    </button>
-                    <button className="px-3 py-1.5 text-xs font-bold rounded-full bg-white/25 backdrop-blur-sm
-                                     hover:bg-primary-100/50 hover:text-primary-700 transition-colors shrink-0 whitespace-nowrap
-                                     border border-white/60 shadow-md text-neutral-900">
-                      Furnished
-                    </button>
-                    <button className="px-3 py-1.5 text-xs font-bold rounded-full bg-white/25 backdrop-blur-sm
-                                     hover:bg-primary-100/50 hover:text-primary-700 transition-colors shrink-0 whitespace-nowrap
-                                     border border-white/60 shadow-md text-neutral-900">
-                      Pet Friendly
-                    </button>
-                    <button className="px-3 py-1.5 text-xs font-bold rounded-full bg-white/25 backdrop-blur-sm
-                                     hover:bg-primary-100/50 hover:text-primary-700 transition-colors shrink-0 whitespace-nowrap
-                                     border border-white/60 shadow-md text-neutral-900">
-                      With Pool
-                    </button>
-                  </div>
-                </div>
+                {/* Search Button */}
+                <Link href="/properties" className="block">
+                  <button className="btn-luxury w-full py-4 text-lg flex items-center justify-center gap-3">
+                    <Search className="h-5 w-5" />
+                    <span>Search Properties</span>
+                    <ArrowRight className="h-5 w-5" />
+                  </button>
+                </Link>
               </div>
+            </div>
+
+            {/* Quick Stats */}
+            <div className="grid grid-cols-2 md:grid-cols-4 gap-4 md:gap-8 mt-12 max-w-4xl mx-auto
+                          animate-fade-in-up animation-delay-600">
+              {stats.map((stat, index) => (
+                <div
+                  key={stat.label}
+                  className="text-center p-4 rounded-2xl bg-white/5 backdrop-blur-sm
+                           border border-white/10 hover:bg-white/10 transition-all duration-300"
+                  style={{ animationDelay: `${600 + index * 100}ms` }}
+                >
+                  <stat.icon className="h-6 w-6 text-primary-400 mx-auto mb-2" />
+                  <p className="text-2xl md:text-3xl font-bold text-white font-display">
+                    {stat.value}
+                  </p>
+                  <p className="text-xs md:text-sm text-white/70 font-medium">
+                    {stat.label}
+                  </p>
+                </div>
+              ))}
             </div>
           </div>
         </div>
 
-        {/* Decorative Bottom Fade */}
-        <div className="absolute bottom-0 left-0 right-0 h-32 bg-gradient-to-t from-white to-transparent" />
+        {/* Scroll Indicator */}
+        <div className="absolute bottom-8 left-1/2 -translate-x-1/2 animate-bounce">
+          <div className="w-6 h-10 rounded-full border-2 border-white/30 flex justify-center pt-2">
+            <div className="w-1 h-3 bg-white/50 rounded-full animate-pulse-soft" />
+          </div>
+        </div>
       </section>
 
-      {/* Browse by Area */}
-      <section className="py-12 md:py-16 lg:py-20 bg-white">
+      {/* Browse by Area - Premium Cards */}
+      <section className="py-20 md:py-28 bg-neutral-50 relative">
+        {/* Decorative Background */}
+        <div className="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-transparent via-primary-400 to-transparent" />
+
         <div className="container mx-auto px-4">
-          <div className="text-center mb-8 md:mb-12">
-            <h2 className="text-3xl md:text-4xl font-display font-semibold text-neutral-900 mb-3 md:mb-4">
-              Browse by Area
+          {/* Section Header */}
+          <div className="text-center mb-16">
+            <span className="inline-block px-4 py-1.5 rounded-full bg-primary-100 text-primary-700
+                           text-sm font-semibold tracking-wide mb-4">
+              EXPLORE LOCATIONS
+            </span>
+            <h2 className="section-title mb-4">
+              Discover Premium Neighborhoods
             </h2>
-            <p className="text-base md:text-lg text-neutral-600 max-w-2xl mx-auto">
-              Explore properties in Kuwait's most sought-after neighborhoods
+            <p className="section-subtitle">
+              Explore Kuwait's most prestigious addresses, curated for luxury living
             </p>
           </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 lg:gap-8">
             {areas.map((area, index) => (
-              <div
+              <Link
                 key={area.name}
-                className="animate-fade-in"
-                style={{ animationDelay: `${index * 0.1}s` }}
+                href={`/properties?area=${area.name}`}
+                className="group relative overflow-hidden rounded-2xl block aspect-[4/3]
+                         card-elegant animate-fade-in-up animation-fill-both"
+                style={{ animationDelay: `${index * 100}ms` }}
               >
-                <Link
-                  href={`/properties?area=${area.name}`}
-                  className="group relative overflow-hidden rounded-xl block aspect-[4/3]"
-                >
-                  <Image
-                    src={area.image}
-                    alt={area.name}
-                    fill
-                    className="object-cover transition-transform duration-500 group-hover:scale-110"
-                  />
-                  <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/20 to-transparent" />
-                  <div className="absolute bottom-0 left-0 right-0 p-6 text-white">
-                    <h3 className="text-2xl font-semibold mb-2">{area.name}</h3>
-                    <p className="text-white/90">{area.count} Properties</p>
+                <Image
+                  src={area.image}
+                  alt={area.name}
+                  fill
+                  className="object-cover transition-transform duration-700 group-hover:scale-110"
+                />
+                {/* Gradient Overlay */}
+                <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/30 to-transparent
+                              group-hover:from-black/90 transition-all duration-500" />
+
+                {/* Premium Badge */}
+                {area.premium && (
+                  <div className="absolute top-4 left-4 flex items-center gap-1.5 px-3 py-1.5
+                                rounded-full bg-primary-500/90 backdrop-blur-sm">
+                    <Crown className="h-3.5 w-3.5 text-white" />
+                    <span className="text-xs font-semibold text-white">Premium</span>
                   </div>
-                  <div className="absolute top-4 right-4 bg-primary-500 text-white p-2 rounded-full opacity-0 group-hover:opacity-100 transition-opacity">
-                    <ChevronRight className="h-5 w-5" />
+                )}
+
+                {/* Content */}
+                <div className="absolute bottom-0 left-0 right-0 p-6">
+                  <h3 className="text-2xl md:text-3xl font-display font-semibold text-white mb-2
+                               group-hover:text-primary-300 transition-colors">
+                    {area.name}
+                  </h3>
+                  <div className="flex items-center justify-between">
+                    <p className="text-white/80 font-medium">
+                      {area.count} Properties
+                    </p>
+                    <div className="w-10 h-10 rounded-full bg-white/20 backdrop-blur-sm
+                                  flex items-center justify-center opacity-0 -translate-x-4
+                                  group-hover:opacity-100 group-hover:translate-x-0
+                                  transition-all duration-300">
+                      <ArrowRight className="h-5 w-5 text-white" />
+                    </div>
                   </div>
-                </Link>
-              </div>
+                </div>
+              </Link>
             ))}
           </div>
         </div>
       </section>
 
-      {/* Featured Properties */}
-      <section className="py-12 md:py-16 lg:py-20 bg-neutral-50">
-        <div className="container mx-auto px-4">
-          <div className="text-center mb-8 md:mb-12">
-            <h2 className="text-3xl md:text-4xl font-display font-semibold text-neutral-900 mb-3 md:mb-4">
-              Featured Properties
-            </h2>
-            <p className="text-base md:text-lg text-neutral-600">
-              Hand-picked premium properties for discerning buyers
-            </p>
+      {/* Featured Properties - Luxury Grid */}
+      <section className="py-20 md:py-28 bg-white relative overflow-hidden">
+        {/* Subtle Pattern Background */}
+        <div className="absolute inset-0 opacity-[0.02]"
+             style={{ backgroundImage: 'url("data:image/svg+xml,%3Csvg width="60" height="60" viewBox="0 0 60 60" xmlns="http://www.w3.org/2000/svg"%3E%3Cg fill="none" fill-rule="evenodd"%3E%3Cg fill="%23000000" fill-opacity="1"%3E%3Cpath d="M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z"/%3E%3C/g%3E%3C/g%3E%3C/svg%3E")' }} />
+
+        <div className="container mx-auto px-4 relative">
+          {/* Section Header */}
+          <div className="flex flex-col md:flex-row md:items-end md:justify-between mb-16">
+            <div>
+              <span className="inline-block px-4 py-1.5 rounded-full bg-primary-100 text-primary-700
+                             text-sm font-semibold tracking-wide mb-4">
+                HANDPICKED SELECTION
+              </span>
+              <h2 className="section-title mb-4">
+                Featured Properties
+              </h2>
+              <p className="section-subtitle text-left max-w-xl">
+                Exceptional homes selected for their outstanding quality and prime locations
+              </p>
+            </div>
+            <Link href="/properties" className="hidden md:flex items-center gap-2 text-primary-600
+                                               font-semibold hover:text-primary-700 transition-colors mt-4 md:mt-0">
+              View All Properties
+              <ArrowRight className="h-5 w-5" />
+            </Link>
           </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 mb-8">
-            {featuredProperties.slice(0, 6).map((property) => (
-              <PropertyCard
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+            {featuredProperties.slice(0, 6).map((property, index) => (
+              <div
                 key={property.id}
-                property={property}
-              />
+                className="animate-fade-in-up animation-fill-both"
+                style={{ animationDelay: `${index * 100}ms` }}
+              >
+                <PropertyCard property={property} />
+              </div>
             ))}
           </div>
 
-          <div className="text-center">
+          {/* Mobile View All Button */}
+          <div className="text-center mt-12 md:hidden">
             <Link href="/properties">
-              <Button size="lg" variant="outline" className="px-8">
+              <Button size="lg" className="btn-luxury px-8">
                 View All Properties
-                <ChevronRight className="h-5 w-5 ml-2" />
+                <ArrowRight className="h-5 w-5 ml-2" />
               </Button>
             </Link>
           </div>
         </div>
       </section>
 
-      {/* Why Choose Us */}
-      <section className="py-12 md:py-16 lg:py-20 bg-white">
-        <div className="container mx-auto px-4">
-          <div className="text-center mb-10 md:mb-16">
-            <h2 className="text-3xl md:text-4xl font-display font-semibold text-neutral-900 mb-3 md:mb-4">
-              Why Choose Elite Properties
+      {/* Why Choose Us - Modern Feature Cards */}
+      <section className="py-20 md:py-28 bg-gradient-to-b from-neutral-900 to-neutral-950 relative overflow-hidden">
+        {/* Background Glow Effects */}
+        <div className="absolute top-1/2 left-1/4 -translate-y-1/2 w-96 h-96 bg-primary-500/10 rounded-full blur-3xl" />
+        <div className="absolute bottom-1/4 right-1/4 w-72 h-72 bg-blue-500/10 rounded-full blur-3xl" />
+
+        <div className="container mx-auto px-4 relative">
+          {/* Section Header */}
+          <div className="text-center mb-16">
+            <span className="inline-block px-4 py-1.5 rounded-full bg-white/10 text-primary-400
+                           text-sm font-semibold tracking-wide mb-4 backdrop-blur-sm">
+              WHY ELITE PROPERTIES
+            </span>
+            <h2 className="section-title text-white mb-4">
+              The Gold Standard in Real Estate
             </h2>
-            <p className="text-base md:text-lg text-neutral-600 max-w-2xl mx-auto">
-              We're committed to providing exceptional service and helping you find your perfect property
+            <p className="text-lg md:text-xl text-neutral-400 max-w-2xl mx-auto">
+              Experience unparalleled service backed by expertise and trust
             </p>
           </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
             {features.map((feature, index) => (
               <div
                 key={feature.title}
-                className="text-center group animate-fade-in"
-                style={{ animationDelay: `${index * 0.1}s` }}
+                className="group p-8 rounded-2xl bg-white/5 backdrop-blur-sm border border-white/10
+                         hover:bg-white/10 hover:border-primary-500/30 transition-all duration-500
+                         animate-fade-in-up animation-fill-both"
+                style={{ animationDelay: `${index * 100}ms` }}
               >
-                <div className="inline-flex items-center justify-center w-16 h-16 rounded-full bg-primary-100 text-primary-600 mb-6 group-hover:bg-primary-600 group-hover:text-white transition-colors">
-                  <feature.icon className="h-8 w-8" />
+                <div className={`inline-flex items-center justify-center w-14 h-14 rounded-xl
+                               bg-gradient-to-br ${feature.gradient} mb-6
+                               shadow-lg group-hover:scale-110 transition-transform duration-300`}>
+                  <feature.icon className="h-7 w-7 text-white" />
                 </div>
-                <h3 className="text-xl font-semibold text-neutral-900 mb-3">{feature.title}</h3>
-                <p className="text-neutral-600">{feature.description}</p>
+                <h3 className="text-xl font-semibold text-white mb-3 font-display">
+                  {feature.title}
+                </h3>
+                <p className="text-neutral-400 leading-relaxed">
+                  {feature.description}
+                </p>
               </div>
             ))}
           </div>
         </div>
       </section>
 
-      {/* Recently Added */}
-      <section className="py-12 md:py-16 lg:py-20 bg-neutral-50">
+      {/* Recently Added - Horizontal Scroll on Mobile */}
+      <section className="py-20 md:py-28 bg-neutral-50">
         <div className="container mx-auto px-4">
-          <div className="text-center mb-8 md:mb-12">
-            <h2 className="text-3xl md:text-4xl font-display font-semibold text-neutral-900 mb-3 md:mb-4">
-              Recently Added
-            </h2>
-            <p className="text-base md:text-lg text-neutral-600">
-              Fresh listings just added to our portfolio
-            </p>
+          {/* Section Header */}
+          <div className="flex flex-col md:flex-row md:items-end md:justify-between mb-12">
+            <div>
+              <span className="inline-block px-4 py-1.5 rounded-full bg-emerald-100 text-emerald-700
+                             text-sm font-semibold tracking-wide mb-4">
+                FRESH LISTINGS
+              </span>
+              <h2 className="section-title mb-4">
+                Recently Added
+              </h2>
+              <p className="section-subtitle text-left max-w-xl">
+                The newest additions to our exclusive portfolio
+              </p>
+            </div>
           </div>
 
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-            {recentProperties.slice(0, 4).map((property) => (
-              <PropertyCard
+            {recentProperties.slice(0, 4).map((property, index) => (
+              <div
                 key={property.id}
-                property={property}
-              />
+                className="animate-fade-in-up animation-fill-both"
+                style={{ animationDelay: `${index * 100}ms` }}
+              >
+                <PropertyCard property={property} />
+              </div>
             ))}
           </div>
         </div>
       </section>
 
-      {/* Testimonials */}
-      <section className="py-12 md:py-16 lg:py-20 bg-white">
+      {/* Testimonials - Premium Carousel Style */}
+      <section className="py-20 md:py-28 bg-white relative overflow-hidden">
         <div className="container mx-auto px-4">
-          <div className="text-center mb-10 md:mb-16">
-            <h2 className="text-3xl md:text-4xl font-display font-semibold text-neutral-900 mb-3 md:mb-4">
-              What Our Clients Say
+          {/* Section Header */}
+          <div className="text-center mb-16">
+            <span className="inline-block px-4 py-1.5 rounded-full bg-primary-100 text-primary-700
+                           text-sm font-semibold tracking-wide mb-4">
+              CLIENT TESTIMONIALS
+            </span>
+            <h2 className="section-title mb-4">
+              Trusted by Thousands
             </h2>
-            <p className="text-base md:text-lg text-neutral-600">
-              Trusted by thousands of satisfied clients across Kuwait
+            <p className="section-subtitle">
+              Hear from our satisfied clients across Kuwait
             </p>
           </div>
 
@@ -514,27 +508,42 @@ export default function HomePage() {
             {testimonials.map((testimonial, index) => (
               <div
                 key={testimonial.name}
-                className="bg-neutral-50 rounded-xl p-8 relative animate-fade-in"
-                style={{ animationDelay: `${index * 0.1}s` }}
+                className="group p-8 rounded-2xl bg-neutral-50 border border-neutral-200
+                         hover:shadow-luxury-lg hover:border-primary-200 transition-all duration-500
+                         animate-fade-in-up animation-fill-both relative"
+                style={{ animationDelay: `${index * 100}ms` }}
               >
-                <Quote className="h-10 w-10 text-primary-200 mb-4" />
-                <p className="text-neutral-700 mb-6 leading-relaxed">{testimonial.content}</p>
-                <div className="flex items-center mb-4">
+                {/* Quote Icon */}
+                <Quote className="h-10 w-10 text-primary-200 mb-6 group-hover:text-primary-400 transition-colors" />
+
+                {/* Content */}
+                <p className="text-neutral-700 mb-8 leading-relaxed text-lg">
+                  "{testimonial.content}"
+                </p>
+
+                {/* Rating */}
+                <div className="flex gap-1 mb-6">
                   {Array.from({ length: testimonial.rating }).map((_, i) => (
-                    <Star key={i} className="h-5 w-5 fill-primary-500 text-primary-500" />
+                    <Star key={i} className="h-5 w-5 fill-primary-400 text-primary-400" />
                   ))}
                 </div>
+
+                {/* Author */}
                 <div className="flex items-center gap-4">
                   <Image
                     src={testimonial.image}
                     alt={testimonial.name}
-                    width={50}
-                    height={50}
-                    className="rounded-full"
+                    width={56}
+                    height={56}
+                    className="rounded-full ring-2 ring-primary-100"
                   />
                   <div>
-                    <p className="font-semibold text-neutral-900">{testimonial.name}</p>
-                    <p className="text-sm text-neutral-600">{testimonial.role}</p>
+                    <p className="font-semibold text-neutral-900 font-display">
+                      {testimonial.name}
+                    </p>
+                    <p className="text-sm text-neutral-600">
+                      {testimonial.role}
+                    </p>
                   </div>
                 </div>
               </div>
@@ -543,26 +552,50 @@ export default function HomePage() {
         </div>
       </section>
 
-      {/* CTA Section */}
-      <section className="py-12 md:py-16 lg:py-20 bg-gradient-to-br from-primary-600 to-primary-800">
-        <div className="container mx-auto px-4 text-center">
-          <h2 className="text-3xl md:text-4xl font-display font-semibold text-white mb-4 md:mb-6">
-            Ready to Find Your Dream Property?
-          </h2>
-          <p className="text-lg md:text-xl text-white/90 mb-6 md:mb-8 max-w-2xl mx-auto">
-            Let our expert team help you navigate the Kuwait real estate market
-          </p>
-          <div className="flex flex-col sm:flex-row gap-3 md:gap-4 justify-center max-w-md sm:max-w-none mx-auto">
-            <Link href="/properties" className="w-full sm:w-auto">
-              <Button size="lg" className="w-full sm:w-auto bg-white text-primary-700 hover:bg-neutral-100 px-6 md:px-8">
-                <Building2 className="h-5 w-5 mr-2" />
-                Browse Properties
+      {/* CTA Section - Premium Design */}
+      <section className="relative py-24 md:py-32 overflow-hidden">
+        {/* Background with gradient */}
+        <div className="absolute inset-0 bg-gradient-to-br from-neutral-900 via-neutral-800 to-neutral-900" />
+
+        {/* Gold accent lines */}
+        <div className="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-transparent via-primary-500 to-transparent" />
+        <div className="absolute bottom-0 left-0 w-full h-1 bg-gradient-to-r from-transparent via-primary-500 to-transparent" />
+
+        {/* Decorative elements */}
+        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[800px] h-[800px]
+                       bg-primary-500/5 rounded-full blur-3xl" />
+
+        <div className="container mx-auto px-4 relative z-10 text-center">
+          <div className="max-w-3xl mx-auto">
+            <Crown className="h-12 w-12 text-primary-400 mx-auto mb-6" />
+
+            <h2 className="text-3xl md:text-5xl font-display font-bold text-white mb-6 leading-tight">
+              Ready to Find Your
+              <span className="block text-gradient-gold">Dream Property?</span>
+            </h2>
+
+            <p className="text-lg md:text-xl text-neutral-400 mb-10 max-w-2xl mx-auto">
+              Let our expert team guide you through Kuwait's finest real estate opportunities.
+              Your perfect home awaits.
+            </p>
+
+            <div className="flex flex-col sm:flex-row gap-4 justify-center">
+              <Link href="/properties">
+                <Button size="lg" className="btn-luxury px-10 py-4 text-lg">
+                  <Building2 className="h-5 w-5 mr-2" />
+                  Browse Properties
+                </Button>
+              </Link>
+              <Button
+                size="lg"
+                variant="outline"
+                className="px-10 py-4 text-lg border-2 border-white/30 text-white
+                         hover:bg-white/10 hover:border-white/50 transition-all"
+              >
+                <Phone className="h-5 w-5 mr-2" />
+                Contact Us
               </Button>
-            </Link>
-            <Button size="lg" variant="outline" className="w-full sm:w-auto border-white text-white hover:bg-white/10 px-6 md:px-8">
-              <Phone className="h-5 w-5 mr-2" />
-              Contact Us
-            </Button>
+            </div>
           </div>
         </div>
       </section>
