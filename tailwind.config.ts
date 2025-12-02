@@ -17,8 +17,32 @@ const config: Config = {
     },
     extend: {
       colors: {
+        // shadcn/ui CSS variable colors
+        border: 'hsl(var(--border))',
+        input: 'hsl(var(--input))',
+        ring: 'hsl(var(--ring))',
+        background: 'hsl(var(--background))',
+        foreground: 'hsl(var(--foreground))',
+        popover: {
+          DEFAULT: 'hsl(var(--popover))',
+          foreground: 'hsl(var(--popover-foreground))',
+        },
+        card: {
+          DEFAULT: 'hsl(var(--card))',
+          foreground: 'hsl(var(--card-foreground))',
+        },
+        muted: {
+          DEFAULT: 'hsl(var(--muted))',
+          foreground: 'hsl(var(--muted-foreground))',
+        },
+        destructive: {
+          DEFAULT: 'hsl(var(--destructive))',
+          foreground: 'hsl(var(--destructive-foreground))',
+        },
         // Luxurious Gold Palette
         primary: {
+          DEFAULT: 'hsl(var(--primary))',
+          foreground: 'hsl(var(--primary-foreground))',
           50: '#fffdf7',
           100: '#fef9e7',
           200: '#fdf0c3',
@@ -30,6 +54,10 @@ const config: Config = {
           800: '#945f14',
           900: '#7a4e16',
           950: '#462909',
+        },
+        secondary: {
+          DEFAULT: 'hsl(var(--secondary))',
+          foreground: 'hsl(var(--secondary-foreground))',
         },
         // Elegant Neutral Palette
         neutral: {
@@ -45,8 +73,10 @@ const config: Config = {
           900: '#171717',
           950: '#0a0a0a',
         },
-        // Accent - Teal for modern touch
+        // Accent colors (shadcn/ui + teal)
         accent: {
+          DEFAULT: 'hsl(var(--accent))',
+          foreground: 'hsl(var(--accent-foreground))',
           50: '#f0fdfa',
           100: '#ccfbf1',
           200: '#99f6e4',
